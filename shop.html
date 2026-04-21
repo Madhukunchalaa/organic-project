@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Collection | Shalini Devi Health Products</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <nav>
+      <div class="container">
+        <a href="index.html" class="logo">
+          <img src="assets/logo.svg" alt="Shalini Devi">
+        </a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="shop.html">The Collection</a>
+          <a href="process.html">Process</a>
+          <a href="heritage.html">Heritage</a>
+          <a href="concierge.html">Concierge</a>
+        </div>
+        <div class="nav-actions">
+          <i class="fas fa-moon" id="theme-icon" onclick="toggleTheme()"></i>
+          <i class="fas fa-search"></i>
+          <i class="far fa-user"></i>
+          <a href="cart.html" class="cart-icon">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count" id="cart-count">0</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="hero hero-luxury" style="background: url('hero_organic_shop_1776785239046.png') no-repeat center center/cover; height: 50vh; min-height: 400px;">
+      <div class="hero-content" style="text-align: left; margin-left: 0;">
+        <h1 style="font-size: 4rem; color: #fff;">The Collection</h1>
+        <p style="color: #fff; opacity: 0.9; max-width: 600px;">Pure, traditional, and sustainably sourced treasures from the heart of Bharat.</p>
+      </div>
+    </header>
+
+    <section class="controls-section" style="padding: 20px 0; background: var(--bg-white); position: sticky; top: 70px; z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.05);">
+      <div class="container">
+        <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 280px; position: relative;">
+            <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); opacity: 0.4;"></i>
+            <input type="text" id="product-search" placeholder="Search our collection..." style="width: 100%; padding: 12px 15px 12px 45px; border-radius: 50px; border: 1px solid rgba(0,0,0,0.1); background: var(--bg-white); color: var(--text-dark); transition: var(--transition);">
+          </div>
+          <div style="width: 200px;">
+            <select id="category-filter" style="width: 100%; padding: 12px 20px; border-radius: 50px; border: 1px solid rgba(0,0,0,0.1); background: var(--bg-white); color: var(--text-dark); cursor: pointer; transition: var(--transition);">
+              <option value="All Categories">All Categories</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 40px;">
+      <div class="container">
+        <div class="products-grid" id="shop-products">
+          <!-- Products will be dynamically rendered here by shop.js -->
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-about">
+            <div class="footer-logo">Shalini Devi</div>
+            <p>
+              Nature's Tradition. Affordably Yours. Bringing the world's 
+              finest organic produce directly to your doorstep.
+            </p>
+          </div>
+          <div class="footer-links">
+            <h4>Heritage</h4>
+            <ul>
+              <li><a href="#">Our Story</a></li>
+              <li><a href="#">Farming Ethics</a></li>
+              <li><a href="#">Certifications</a></li>
+            </ul>
+          </div>
+          <div class="footer-links">
+            <h4>Concierge</h4>
+            <ul>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">Shipping</a></li>
+              <li><a href="#">Returns</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+          </div>
+          <div class="newsletter">
+            <h4>Join the Inner Circle</h4>
+            <p>Exclusive access to seasonal harvests and organic insights.</p>
+            <form class="newsletter-form">
+              <input type="email" placeholder="Email Address" />
+              <button type="submit">Join</button>
+            </form>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 Shalini Devi Health Products. All Rights Reserved. Crafted for Wellness.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="scripts/products.js"></script>
+    <script src="scripts/cart.js"></script>
+    <script src="scripts/shop.js"></script>
+    <script src="scripts/animations.js"></script>
+  </body>
+</html>

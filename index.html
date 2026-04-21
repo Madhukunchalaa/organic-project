@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shalini Devi Health Products | Premium Organic Heritage</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <nav>
+      <div class="container">
+        <a href="index.html" class="logo">
+          <img src="assets/logo.svg" alt="Shalini Devi">
+        </a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="shop.html">The Collection</a>
+          <a href="process.html">Process</a>
+          <a href="heritage.html">Heritage</a>
+          <a href="concierge.html">Concierge</a>
+        </div>
+        <div class="nav-actions">
+          <i class="fas fa-moon" id="theme-icon" onclick="toggleTheme()"></i>
+          <i class="fas fa-search"></i>
+          <i class="far fa-user"></i>
+          <a href="cart.html" class="cart-icon">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count" id="cart-count">0</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="hero hero-luxury" style="background: url('hero_fresh_organic_vibe_2024_1776786332460.png') no-repeat center center/cover;">
+      <div class="hero-content">
+        <h1>Nature's Purest Harvest</h1>
+        <p>
+          Experience the pinnacle of organic luxury. Traditional Indian 
+          heritage met with modern wellness.
+        </p>
+        <a href="shop.html" class="btn">Shop the Collection</a>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Curated Categories</h2>
+          <p>Hand-selected organic treasures from the finest estates</p>
+        </div>
+        <div class="categories-slider">
+          <div class="category-card">
+            <img src="assets/hero_premium.png" alt="Premium Grains" />
+            <div class="category-info">
+              <h3>Heritage Grains</h3>
+              <a href="shop.html?cat=grains" class="shop-link">Explore Now <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="category-card">
+            <img src="assets/cat_spices.png" alt="Exotic Spices" />
+            <div class="category-info">
+              <h3>Exotic Spices</h3>
+              <a href="shop.html?cat=spices" class="shop-link">Explore Now <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="category-card">
+            <img src="assets/cat_oils.png" alt="Vital Essences" />
+            <div class="category-info">
+              <h3>Pure Essences</h3>
+              <a href="shop.html?cat=oils" class="shop-link">Explore Now <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features-band">
+      <div class="container">
+        <div class="features-grid">
+          <div class="feature-item">
+            <i class="fas fa-seedling"></i>
+            <h4>100% Organic</h4>
+            <p>Certified soil-to-soul purity</p>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-hand-holding-heart"></i>
+            <h4>Ethical Sourcing</h4>
+            <p>Direct from traditional farmers</p>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-truck-fast"></i>
+            <h4>Swift Delivery</h4>
+            <p>Freshness preserved in transit</p>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-shield-halved"></i>
+            <h4>Quality Assured</h4>
+            <p>Rigorous lab testing for purity</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Seasonal Highlights</h2>
+          <p>Our most sought-after organic arrivals this month</p>
+        </div>
+        <div class="products-grid" id="featured-products">
+          <!-- Featured items will be rendered here -->
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-about">
+            <div class="footer-logo">Shalini Devi</div>
+            <p>
+              Nature's Tradition. Affordably Yours. Bringing the world's 
+              finest organic produce directly to your doorstep.
+            </p>
+          </div>
+          <div class="footer-links">
+            <h4>Heritage</h4>
+            <ul>
+              <li><a href="heritage.html">Our Story</a></li>
+              <li><a href="#">Farming Ethics</a></li>
+              <li><a href="#">Certifications</a></li>
+            </ul>
+          </div>
+          <div class="footer-links">
+            <h4>Concierge</h4>
+            <ul>
+              <li><a href="concierge.html">Contact Us</a></li>
+              <li><a href="#">Shipping</a></li>
+              <li><a href="#">Returns</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+          </div>
+          <div class="newsletter">
+            <h4>Join the Inner Circle</h4>
+            <p>Exclusive access to seasonal harvests and organic insights.</p>
+            <form class="newsletter-form">
+              <input type="email" placeholder="Email Address" />
+              <button type="submit">Join</button>
+            </form>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 Shalini Devi Health Products. All Rights Reserved. Crafted for Wellness.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="scripts/products.js"></script>
+    <script src="scripts/cart.js"></script>
+    <script src="scripts/animations.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const featuredGrid = document.getElementById('featured-products');
+        if (featuredGrid) {
+          // Pick 4 diverse products for the home page
+          const highlightedIds = [5, 12, 22, 30]; 
+          const highlighted = PRODUCTS.filter(p => highlightedIds.includes(p.id));
+          
+          featuredGrid.innerHTML = highlighted.map(product => `
+            <div class="product-card">
+              <span class="product-badge">Featured</span>
+              <div class="product-image-container">
+                <img src="${product.img}" alt="${product.name}" class="product-img" />
+              </div>
+              <div class="product-info">
+                <h3>${product.name}</h3>
+                <p style="opacity: 0.6; font-size: 0.85rem; margin-bottom: 10px;">${product.category}</p>
+                <div class="product-meta">
+                  <span class="price">${product.priceRange}</span>
+                  <button class="add-btn" onclick="addToCart({id: ${product.id}, name: '${product.name.replace(/'/g, "\\'")}', price: ${product.priceNumeric}, img: '${product.img}'}, this)">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `).join('');
+        }
+      });
+    </script>
+  </body>
+</html>

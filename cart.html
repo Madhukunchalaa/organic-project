@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Basket | Shalini Devi Health Products</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <nav>
+      <div class="container">
+        <a href="index.html" class="logo">
+          <img src="assets/logo.svg" alt="Shalini Devi">
+        </a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="shop.html">The Collection</a>
+          <a href="process.html">Process</a>
+          <a href="heritage.html">Heritage</a>
+          <a href="concierge.html">Concierge</a>
+        </div>
+        <div class="nav-actions">
+          <i class="fas fa-moon" id="theme-icon" onclick="toggleTheme()"></i>
+          <i class="fas fa-search"></i>
+          <i class="far fa-user"></i>
+          <a href="cart.html" class="cart-icon">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count" id="cart-count">0</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="section" style="min-height: 70vh;">
+      <div class="container">
+        <div class="section-header" style="text-align: left; margin-bottom: 50px;">
+          <h1 style="font-size: 3rem;">Your Basket</h1>
+          <p>Review your selected organic treasures.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 50px;" class="cart-container">
+          <div id="cart-items">
+            <!-- Cart items will be injected by JS -->
+            <p>Your basket is currently empty.</p>
+          </div>
+
+          <div id="cart-summary" class="cart-summary" style="background: var(--bg-white); padding: 40px; border-radius: var(--radius); box-shadow: var(--shadow-md); height: fit-content;">
+            <h3 style="margin-bottom: 25px;">Order Summary</h3>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 15px;">
+              <span>Subtotal</span>
+              <span id="cart-subtotal">₹0.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+              <span>Shipping</span>
+              <span>Calculated at checkout</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 30px; font-weight: 700; font-size: 1.2rem; color: var(--primary);">
+              <span>Total</span>
+              <span id="cart-total">₹0.00</span>
+            </div>
+            <button class="btn" style="width: 100%;" onclick="initCheckout()">Proceed to Checkout</button>
+            <a href="shop.html" style="display: block; text-align: center; margin-top: 20px; font-size: 0.9rem; opacity: 0.6;">Continue Shopping</a>
+          </div>
+        </div>
+
+        <!-- Real App: Address Collection -->
+        <div id="checkout-section" class="checkout-section">
+            <h2 style="margin-bottom: 30px; font-family: 'Cormorant Garamond', serif;">Delivery Details</h2>
+            <form id="address-form" onsubmit="placeOrder(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="fullname" placeholder="Shalini Devi" required>
+                </div>
+                <div class="form-group">
+                    <label>Estate Address</label>
+                    <input type="text" id="address" placeholder="Street, Building, Area" required>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" id="city" placeholder="Hyderabad" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Pincode</label>
+                        <input type="text" id="pincode" placeholder="500001" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn" style="width: 100%; margin-top: 20px;">Complete Traditional Payment</button>
+            </form>
+        </div>
+
+        <!-- Real App: Delivery Animation -->
+        <div id="delivery-animation" class="delivery-animation">
+            <div class="track-container">
+                <div id="delivery-truck" class="delivery-truck">
+                    <i class="fas fa-truck-moving"></i>
+                </div>
+            </div>
+            <div id="status-label" class="status-label">Initializing Order Fulfillment...</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-about">
+            <div class="footer-logo">Shalini Devi</div>
+            <p>
+              Nature's Tradition. Affordably Yours. Bringing the world's 
+              finest organic produce directly to your doorstep.
+            </p>
+          </div>
+          <!-- Repeat Footer for consistency -->
+          <div class="footer-links">
+            <h4>Heritage</h4>
+            <ul>
+              <li><a href="#">Our Story</a></li>
+              <li><a href="#">Farming Ethics</a></li>
+              <li><a href="#">Certifications</a></li>
+            </ul>
+          </div>
+          <div class="footer-links">
+            <h4>Concierge</h4>
+            <ul>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">Shipping</a></li>
+              <li><a href="#">Returns</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+          </div>
+          <div class="newsletter">
+            <h4>Join the Inner Circle</h4>
+            <p>Exclusive access to seasonal harvests and organic insights.</p>
+            <form class="newsletter-form">
+              <input type="email" placeholder="Email Address" />
+              <button type="submit">Join</button>
+            </form>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 Shalini Devi Health Products. All Rights Reserved. Crafted for Wellness.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="scripts/cart.js"></script>
+    <script>
+      // Call updateCartDisplay on load for cart.html
+      document.addEventListener('DOMContentLoaded', updateCartDisplay);
+    </script>
+  </body>
+</html>

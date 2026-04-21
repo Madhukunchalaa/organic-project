@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Concierge | Shalini Devi Health Products</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <nav>
+      <div class="container">
+        <a href="index.html" class="logo">
+          <img src="assets/logo.svg" alt="Shalini Devi">
+        </a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="shop.html">The Collection</a>
+          <a href="process.html">Process</a>
+          <a href="heritage.html">Heritage</a>
+          <a href="concierge.html">Concierge</a>
+        </div>
+        <div class="nav-actions">
+          <i class="fas fa-moon" id="theme-icon" onclick="toggleTheme()"></i>
+          <i class="fas fa-search"></i>
+          <i class="far fa-user"></i>
+          <a href="cart.html" class="cart-icon">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count" id="cart-count">0</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="hero hero-luxury" style="background: url('hero_organic_concierge_1776785334773.png') no-repeat center center/cover; height: 50vh; min-height: 400px;">
+      <div class="hero-content" style="text-align: left; margin-left: 0;">
+        <h1 style="font-size: 4rem; color: #fff;">Premium Concierge</h1>
+        <p style="color: #fff; opacity: 0.9; max-width: 600px;">Your personal gateway to Bharat's rarest and most dedicated organic harvests.</p>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px;">
+          <div style="background: var(--bg-white); padding: 50px; border-radius: var(--radius); box-shadow: var(--shadow-md);">
+            <h3 style="font-size: 2rem; margin-bottom: 25px;">Contact Our Experts</h3>
+            <form style="display: flex; flex-direction: column; gap: 20px;">
+              <input type="text" placeholder="Your Name" style="padding: 15px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); background: var(--bg-main); color: var(--text-dark);" />
+              <input type="email" placeholder="Email Address" style="padding: 15px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); background: var(--bg-main); color: var(--text-dark);" />
+              <textarea placeholder="How can we assist you?" style="padding: 15px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); background: var(--bg-main); color: var(--text-dark); height: 150px;"></textarea>
+              <button class="btn" type="submit" style="width: fit-content;">Send Message</button>
+            </form>
+          </div>
+          
+          <div style="padding: 20px;">
+            <h3 style="font-size: 2rem; margin-bottom: 25px;">Frequently Asked</h3>
+            <div style="margin-bottom: 30px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 20px;">
+              <h4 style="margin-bottom: 10px; font-size: 1.3rem;">Where do you source your saffron?</h4>
+              <p style="opacity: 0.7;">Our Grade A++ Saffron is direct-sourced from the saffron fields of Pampore, Kashmir.</p>
+            </div>
+            <div style="margin-bottom: 30px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 20px;">
+              <h4 style="margin-bottom: 10px; font-size: 1.3rem;">Are your products lab-tested?</h4>
+              <p style="opacity: 0.7;">Yes, every batch undergoes rigorous testing for purity, heavy metals, and nutritional value.</p>
+            </div>
+            <div style="margin-bottom: 30px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 20px;">
+              <h4 style="margin-bottom: 10px; font-size: 1.3rem;">Do you ship internationally?</h4>
+              <p style="opacity: 0.7;">Currently, we shipping across India and select international regions. Please contact us for details.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="footer-bottom" style="border: none;">
+          <p>&copy; 2024 Shalini Devi Health Products. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="scripts/cart.js"></script>
+  </body>
+</html>
