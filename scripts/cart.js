@@ -29,6 +29,41 @@ function addToCart(product, sourceElement) {
   }
 }
 
+function addVariantToCart(variantItem, sourceElement) {
+  const existingItem = cart.find((item) => item.variantId === variantItem.variantId);
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cart.push({ ...variantItem, quantity: 1 });
+  }
+
+  saveCart();
+  
+  if (sourceElement) {
+      triggerFlyAnimation(sourceElement);
+  } else {
+      updateCartUI();
+      showToast(`${variantItem.name} added to basket!`);
+  }
+  
+  // Custom event for UI sync
+  document.dispatchEvent(new CustomEvent('cartUpdated'));
+}
+
+function updateVariantQuantity(variantId, delta) {
+  const item = cart.find((i) => i.variantId === variantId);
+  if (item) {
+    item.quantity += delta;
+    if (item.quantity <= 0) {
+      cart = cart.filter((i) => i.variantId !== variantId);
+    }
+    saveCart();
+    updateCartUI();
+    updateCartDisplay();
+    document.dispatchEvent(new CustomEvent('cartUpdated'));
+  }
+}
+
 function triggerFlyAnimation(button) {
     const card = button.closest('.product-card');
     const img = card.querySelector('.product-img');
@@ -101,8 +136,13 @@ function updateCartDisplay() {
   if (!cartContainer) return;
 
   if (cart.length === 0) {
-    cartContainer.innerHTML =
-      '<p style="padding: 40px; text-align: center; opacity: 0.5;">Your basket is currently empty.</p>';
+    cartContainer.innerHTML = `
+      <div class="empty-cart-state">
+        <i class="fas fa-shopping-basket"></i>
+        <p>Your basket is currently empty.</p>
+        <a href="shop.html" class="btn btn-primary">Explore The Collection</a>
+      </div>
+    `;
     if (subtotalEle) subtotalEle.innerText = "₹0.00";
     if (totalEle) totalEle.innerText = "₹0.00";
     return;
@@ -113,24 +153,37 @@ function updateCartDisplay() {
 
   cart.forEach((item) => {
     subtotal += item.price * item.quantity;
+    
+    // Safety check for weight variant. If the item in cart doesn't have a weight recorded, default to 500g
+    const itemWeight = item.weight || '500g';
+
     html += `
-      <div style="display: flex; align-items: center; gap: 20px; background: var(--bg-white); padding: 20px; border-radius: var(--radius); margin-bottom: 20px; box-shadow: var(--shadow-sm);">
-        <img src="${item.img}" alt="${item.name}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
-        <div style="flex: 1;">
-          <h4 style="margin-bottom: 5px;">${item.name}</h4>
-          <p style="color: var(--primary); font-weight: 600;">₹${item.price.toFixed(2)}</p>
+      <div class="premium-cart-item" id="cart-item-${item.id}">
+        <img src="${item.img}" alt="${item.name}">
+        
+        <div class="premium-cart-item-details">
+          <div class="premium-cart-item-title">${item.name}</div>
+          <div class="premium-cart-item-meta">
+            Harvest Quantity: <strong>${itemWeight}</strong>
+          </div>
+          <div class="premium-cart-item-price">₹${item.price.toFixed(2)}</div>
+          
+          <div class="premium-cart-item-actions">
+            <div class="qty-stepper">
+              <button class="stepper-btn" onclick="updateQuantity(${item.id}, -1, '${itemWeight}')">-</button>
+              <div class="stepper-qty">${item.quantity}</div>
+              <button class="stepper-btn" onclick="updateQuantity(${item.id}, 1, '${itemWeight}')">+</button>
+            </div>
+            
+            <button class="remove-btn-premium" onclick="removeFromCart(${item.id}, '${itemWeight}')">
+              <i class="fas fa-trash"></i> Remove
+            </button>
+          </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 15px;">
-          <button onclick="updateQuantity(${item.id}, -1)" style="border: 1px solid rgba(0,0,0,0.1); background: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;">-</button>
-          <span>${item.quantity}</span>
-          <button onclick="updateQuantity(${item.id}, 1)" style="border: 1px solid rgba(0,0,0,0.1); background: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;">+</button>
-        </div>
-        <div style="font-weight: 600; width: 100px; text-align: right;">
+        
+        <div style="font-weight: 800; font-size: 1.2rem; color: var(--primary); align-self: center;">
           ₹${(item.price * item.quantity).toFixed(2)}
         </div>
-        <button onclick="removeFromCart(${item.id})" style="border: none; background: none; color: #ff4d4d; cursor: pointer; padding: 10px;">
-          <i class="fas fa-trash"></i>
-        </button>
       </div>
     `;
   });
@@ -212,17 +265,18 @@ function initCheckout() {
     const cartItems = document.getElementById('cart-items');
     
     if (cart.length === 0) {
-        showToast("Add some treasures to your basket first!");
+        showToast("Your basket is empty.");
         return;
     }
-
-    // Hide cart UI
-    if (cartItems) cartItems.style.display = 'none';
-    if (cartSummary) cartSummary.style.display = 'none';
-
-    // Show Checkout Form
+    const summary = document.getElementById('cart-summary');
     const checkoutSec = document.getElementById('checkout-section');
-    if (checkoutSec) checkoutSec.classList.add('active');
+    
+    if (summary) summary.style.display = 'none';
+    if (checkoutSec) {
+        checkoutSec.style.display = 'block';
+        // Scroll to the checkout form smoothly
+        checkoutSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 }
 
 function placeOrder(e) {
@@ -237,10 +291,10 @@ function placeOrder(e) {
     }
 
     // Transition to Animation
-    const checkoutSec = document.getElementById('checkout-section');
+    const cartLayout = document.querySelector('.cart-layout');
     const deliveryAnim = document.getElementById('delivery-animation');
     
-    if (checkoutSec) checkoutSec.classList.remove('active');
+    if (cartLayout) cartLayout.style.display = 'none';
     if (deliveryAnim) deliveryAnim.classList.add('active');
 
     startTruckAnimation();
@@ -249,32 +303,34 @@ function placeOrder(e) {
 function startTruckAnimation() {
     const truck = document.getElementById('delivery-truck');
     const status = document.getElementById('status-label');
-    const track = document.querySelector('.track-container');
 
-    const steps = [
-        { label: "Authenticating Premium Payment...", delay: 0 },
-        { label: "Traditional Vedic Packaging...", delay: 1500 },
-        { label: "Goods Collected and Dispatched!", delay: 3000 },
-        { label: "Your order is on the way to you!", delay: 4500 }
-    ];
+    // Reset classes
+    if (truck) {
+        truck.classList.remove('entering', 'exiting');
+        // Force reflow
+        void truck.offsetWidth; 
+    }
 
-    steps.forEach(step => {
-        setTimeout(() => {
-            if (status) status.innerText = step.label;
-            
-            // At the collection step, fly some goods into the truck
-            if (step.label.includes("Collected")) {
-                flyGoodsIntoTruck(track, truck);
-            }
+    // 1. Truck enters slowly (0s)
+    if (status) status.innerText = "Dispatching Delivery Vehicle...";
+    if (truck) truck.classList.add('entering');
 
-            // Start truck movement
-            if (step.label.includes("way")) {
-                if (truck) truck.classList.add('driving');
-            }
-        }, step.delay);
-    });
+    // 2. Load goods from navbar cart icon (3s)
+    setTimeout(() => {
+        if (status) status.innerText = "Loading Your Organic Treasures...";
+        flyGoodsIntoTruck(truck);
+    }, 3000);
 
-    // Success Screen
+    // 3. Truck speeds away (5.5s)
+    setTimeout(() => {
+        if (status) status.innerText = "Your order is on the way to you!";
+        if (truck) {
+            truck.classList.remove('entering');
+            truck.classList.add('exiting');
+        }
+    }, 5500);
+
+    // 4. Success Screen (7.5s)
     setTimeout(() => {
         const deliveryAnim = document.getElementById('delivery-animation');
         if (deliveryAnim) {
@@ -286,7 +342,7 @@ function startTruckAnimation() {
                         Your treasures have been dispatched from our estate. 
                         Estimated arrival: <strong>2-3 traditional harvest days</strong>.
                     </p>
-                    <a href="index.html" class="btn">Return to Estate</a>
+                    <a href="index.html" class="btn btn-primary">Return to Estate</a>
                 </div>
             `;
         }
@@ -294,33 +350,43 @@ function startTruckAnimation() {
         cart = [];
         saveCart();
         updateCartUI();
-    }, 8000);
+    }, 7500);
 }
 
-function flyGoodsIntoTruck(track, truck) {
-    if (!track || !truck) return;
-    
-    for (let i = 0; i < Math.min(cart.length, 5); i++) {
+function flyGoodsIntoTruck(truck) {
+    const cartIcon = document.querySelector('.cart-icon');
+    if (!cartIcon || !truck) return;
+
+    // Get starting position (Navbar Cart Icon)
+    const cartPos = cartIcon.getBoundingClientRect();
+    const startX = cartPos.left + (cartPos.width / 2);
+    const startY = cartPos.top + (cartPos.height / 2);
+
+    const itemsToFly = Math.min(cart.length, 5) || 3; // Fallback to 3 if cart is empty for some reason
+
+    for (let i = 0; i < itemsToFly; i++) {
         setTimeout(() => {
             const icon = document.createElement('i');
             icon.className = `fas fa-leaf cargo-icon`;
-            icon.style.left = '10%';
-            icon.style.top = '20%';
-            track.appendChild(icon);
+            // Start at navbar icon
+            icon.style.left = `${startX}px`;
+            icon.style.top = `${startY}px`;
+            document.body.appendChild(icon);
 
-            // Animate to truck
+            // Animate to truck's current position
             setTimeout(() => {
                 const truckPos = truck.getBoundingClientRect();
-                const trackPos = track.getBoundingClientRect();
+                const targetX = truckPos.left + (truckPos.width / 2);
+                const targetY = truckPos.top + (truckPos.height / 2);
                 
                 icon.style.opacity = '1';
-                icon.style.left = '50%';
-                icon.style.top = '50%';
-                icon.style.transform = 'scale(0.5)';
+                icon.style.left = `${targetX}px`;
+                icon.style.top = `${targetY}px`;
+                icon.style.transform = 'scale(0.5) rotate(360deg)';
                 
-                setTimeout(() => icon.remove(), 800);
+                setTimeout(() => icon.remove(), 1000);
             }, 50);
-        }, i * 300);
+        }, i * 400); // 400ms between each item
     }
 }
 

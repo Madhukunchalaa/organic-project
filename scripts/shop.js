@@ -17,25 +17,17 @@ function renderProducts(items) {
         return;
     }
 
-    productsGrid.innerHTML = items.map(product => `
-        <div class="product-card">
-            ${product.category === 'Laddus' || product.category === 'Pickles' ? '<span class="product-badge">Homemade</span>' : ''}
-            ${product.id <= 5 ? '<span class="product-badge">Top Quality</span>' : ''}
-            <div class="product-image-container">
-                <img src="${product.img}" alt="${product.name}" class="product-img" loading="lazy" />
-            </div>
-            <div class="product-info">
-                <h3>${product.name}</h3>
-                <p style="opacity: 0.6; font-size: 0.85rem; margin-bottom: 10px;">${product.category}</p>
-                <div class="product-meta">
-                    <span class="price">${product.priceRange}</span>
-                    <button class="add-btn" onclick="addToCart({id: ${product.id}, name: '${product.name.replace(/'/g, "\\'")}', price: ${product.priceNumeric}, img: '${product.img}'}, this)">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    `).join('');
+    productsGrid.innerHTML = items.map((product, i) => generateCardHTML(product, i)).join('');
+    
+    // Trigger card action updates
+    if (typeof updateAllCardActions === 'function') {
+        updateAllCardActions();
+    }
+
+    // Re-init scroll reveals
+    if (typeof initScrollReveal === 'function') {
+        initScrollReveal();
+    }
 }
 
 function initShop() {

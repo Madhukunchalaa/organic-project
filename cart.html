@@ -35,66 +35,80 @@
       </div>
     </nav>
 
-    <section class="section" style="min-height: 70vh;">
+    <section class="section cart-page-section">
       <div class="container">
-        <div class="section-header" style="text-align: left; margin-bottom: 50px;">
-          <h1 style="font-size: 3rem;">Your Basket</h1>
-          <p>Review your selected organic treasures.</p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 50px;" class="cart-container">
-          <div id="cart-items">
-            <!-- Cart items will be injected by JS -->
-            <p>Your basket is currently empty.</p>
+        
+        <div class="cart-layout">
+          <!-- Left Column: Basket Items -->
+          <div class="cart-items-column">
+            <div class="section-header cart-header">
+              <h1>Your Basket</h1>
+              <p>Review your selected organic treasures.</p>
+            </div>
+            
+            <div id="cart-items" class="premium-cart-items">
+              <!-- Cart items will be injected by JS -->
+              <div class="empty-cart-state">
+                <i class="fas fa-shopping-basket"></i>
+                <p>Your basket is currently empty.</p>
+                <a href="shop.html" class="btn btn-primary">Explore The Collection</a>
+              </div>
+            </div>
           </div>
 
-          <div id="cart-summary" class="cart-summary" style="background: var(--bg-white); padding: 40px; border-radius: var(--radius); box-shadow: var(--shadow-md); height: fit-content;">
-            <h3 style="margin-bottom: 25px;">Order Summary</h3>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 15px;">
-              <span>Subtotal</span>
-              <span id="cart-subtotal">₹0.00</span>
+          <!-- Right Column: Summary & Checkout -->
+          <div class="cart-sidebar">
+            <div id="cart-summary" class="premium-summary-card">
+              <h3>Order Summary</h3>
+              <div class="summary-row">
+                <span>Subtotal</span>
+                <span id="cart-subtotal">₹0.00</span>
+              </div>
+              <div class="summary-row">
+                <span>Shipping</span>
+                <span>Calculated at checkout</span>
+              </div>
+              <div class="summary-row total-row">
+                <span>Total</span>
+                <span id="cart-total">₹0.00</span>
+              </div>
+              <button class="btn btn-primary w-100" id="btn-proceed" onclick="initCheckout()">Proceed to Checkout</button>
             </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-              <span>Shipping</span>
-              <span>Calculated at checkout</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 30px; font-weight: 700; font-size: 1.2rem; color: var(--primary);">
-              <span>Total</span>
-              <span id="cart-total">₹0.00</span>
-            </div>
-            <button class="btn" style="width: 100%;" onclick="initCheckout()">Proceed to Checkout</button>
-            <a href="shop.html" style="display: block; text-align: center; margin-top: 20px; font-size: 0.9rem; opacity: 0.6;">Continue Shopping</a>
-          </div>
-        </div>
 
-        <!-- Real App: Address Collection -->
-        <div id="checkout-section" class="checkout-section">
-            <h2 style="margin-bottom: 30px; font-family: 'Cormorant Garamond', serif;">Delivery Details</h2>
-            <form id="address-form" onsubmit="placeOrder(event)">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="fullname" placeholder="Shalini Devi" required>
-                </div>
-                <div class="form-group">
-                    <label>Estate Address</label>
-                    <input type="text" id="address" placeholder="Street, Building, Area" required>
-                </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <div class="form-group">
-                        <label>City</label>
-                        <input type="text" id="city" placeholder="Hyderabad" required>
+            <!-- Real App: Address Collection (Initially Hidden) -->
+            <div id="checkout-section" class="premium-checkout-card" style="display: none;">
+                <h2>Delivery Details</h2>
+                <form id="address-form" onsubmit="placeOrder(event)">
+                    <div class="form-group glass-input">
+                        <label>Full Name</label>
+                        <input type="text" id="fullname" placeholder="Shalini Devi" required>
                     </div>
-                    <div class="form-group">
-                        <label>Pincode</label>
-                        <input type="text" id="pincode" placeholder="500001" required>
+                    <div class="form-group glass-input">
+                        <label>Estate Address</label>
+                        <input type="text" id="address" placeholder="Street, Building, Area" required>
                     </div>
-                </div>
-                <button type="submit" class="btn" style="width: 100%; margin-top: 20px;">Complete Traditional Payment</button>
-            </form>
+                    <div class="form-row">
+                        <div class="form-group glass-input">
+                            <label>City</label>
+                            <input type="text" id="city" placeholder="Hyderabad" required>
+                        </div>
+                        <div class="form-group glass-input">
+                            <label>Pincode</label>
+                            <input type="text" id="pincode" placeholder="500001" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-accent w-100 mt-20">Complete Traditional Payment</button>
+                </form>
+            </div>
+            
+            <a href="shop.html" class="continue-shopping-link">
+              <i class="fas fa-arrow-left"></i> Continue Shopping
+            </a>
+          </div>
         </div>
 
         <!-- Real App: Delivery Animation -->
-        <div id="delivery-animation" class="delivery-animation">
+        <div id="delivery-animation" class="delivery-animation premium-delivery">
             <div class="track-container">
                 <div id="delivery-truck" class="delivery-truck">
                     <i class="fas fa-truck-moving"></i>
@@ -115,11 +129,10 @@
               finest organic produce directly to your doorstep.
             </p>
           </div>
-          <!-- Repeat Footer for consistency -->
           <div class="footer-links">
             <h4>Heritage</h4>
             <ul>
-              <li><a href="#">Our Story</a></li>
+              <li><a href="heritage.html">Our Story</a></li>
               <li><a href="#">Farming Ethics</a></li>
               <li><a href="#">Certifications</a></li>
             </ul>
@@ -127,7 +140,7 @@
           <div class="footer-links">
             <h4>Concierge</h4>
             <ul>
-              <li><a href="#">Contact Us</a></li>
+              <li><a href="concierge.html">Contact Us</a></li>
               <li><a href="#">Shipping</a></li>
               <li><a href="#">Returns</a></li>
               <li><a href="#">FAQ</a></li>

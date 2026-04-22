@@ -3,6 +3,12 @@
  * 62 premium organic products
  */
 
+const WEIGHT_VARIANTS = [
+    { label: '500g', multiplier: 1 },
+    { label: '1kg', multiplier: 1.8 },
+    { label: '2kg', multiplier: 3.4 }
+];
+
 const PRODUCTS = [
     {
         id: 1,

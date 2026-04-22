@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Collection | Shalini Devi Health Products</title>
+    <title>Product Details | Shalini Devi Health Products</title>
     <link rel="stylesheet" href="css/styles.css" />
     <link
       rel="stylesheet"
@@ -35,33 +35,26 @@
       </div>
     </nav>
 
-    <header class="hero hero-luxury" style="background: url('hero_organic_shop_1776785239046.png') no-repeat center center/cover; height: 50vh; min-height: 400px;">
-      <div class="hero-content" style="text-align: left; margin-left: 0;">
-        <h1 style="font-size: 4rem; color: #fff;">The Collection</h1>
-        <p style="color: #fff; opacity: 0.9; max-width: 600px;">Pure, traditional, and sustainably sourced treasures from the heart of Bharat.</p>
-      </div>
-    </header>
-
-    <section class="controls-section" style="padding: 20px 0; background: var(--bg-white); position: sticky; top: 70px; z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.05);">
+    <main class="product-detail-page">
       <div class="container">
-        <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
-          <div style="flex: 1; min-width: 280px; position: relative;">
-            <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); opacity: 0.4;"></i>
-            <input type="text" id="product-search" placeholder="Search our collection..." style="width: 100%; padding: 12px 15px 12px 45px; border-radius: 50px; border: 1px solid rgba(0,0,0,0.1); background: var(--bg-white); color: var(--text-dark); transition: var(--transition);">
-          </div>
-          <div style="width: 200px;">
-            <select id="category-filter" style="width: 100%; padding: 12px 20px; border-radius: 50px; border: 1px solid rgba(0,0,0,0.1); background: var(--bg-white); color: var(--text-dark); cursor: pointer; transition: var(--transition);">
-              <option value="All Categories">All Categories</option>
-            </select>
+        <div id="product-detail-content" class="product-detail-grid">
+          <!-- Rendered by scripts/product.js -->
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Gathering traditional treasures...</p>
           </div>
         </div>
       </div>
-    </section>
+    </main>
 
-    <section class="section" style="padding-top: 40px;">
+    <section class="section bg-light">
       <div class="container">
-        <div class="products-grid" id="shop-products">
-          <!-- Products will be dynamically rendered here by shop.js -->
+        <div class="section-header">
+          <h2>You May Also Treasure</h2>
+          <p>Hand-selected items that complement your choice.</p>
+        </div>
+        <div class="products-grid" id="related-products">
+          <!-- Rendered by scripts/product.js -->
         </div>
       </div>
     </section>
@@ -111,7 +104,7 @@
     <script src="scripts/products.js"></script>
     <script src="scripts/cart.js"></script>
     <script src="scripts/cardFeatures.js"></script>
-    <script src="scripts/shop.js"></script>
+    <script src="scripts/product.js"></script>
     <script src="scripts/animations.js"></script>
   </body>
 </html>

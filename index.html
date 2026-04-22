@@ -35,14 +35,33 @@
       </div>
     </nav>
 
-    <header class="hero hero-luxury" style="background: url('hero_fresh_organic_vibe_2024_1776786332460.png') no-repeat center center/cover;">
-      <div class="hero-content">
+    <header class="hero hero-luxury" style="background: url('assets/premium_hero.png') no-repeat center center/cover;">
+      <div class="hero-overlay"></div>
+      <div class="hero-content reveal">
+        <div class="hero-badge">Pure Tradition • Modern Wellness</div>
         <h1>Nature's Purest Harvest</h1>
         <p>
-          Experience the pinnacle of organic luxury. Traditional Indian 
-          heritage met with modern wellness.
+          Experience the pinnacle of organic luxury. Hand-selected treasures 
+          from the heart of Bharat's finest estates, delivered to your doorstep.
         </p>
-        <a href="shop.html" class="btn">Shop the Collection</a>
+        <div class="hero-actions">
+          <a href="shop.html" class="btn btn-hero">Shop the Collection</a>
+          <a href="process.html" class="btn btn-outline-white">Our Heritage</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-num">100%</span>
+            <span class="stat-label">Natural</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">50+</span>
+            <span class="stat-label">Estates</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">24h</span>
+            <span class="stat-label">Harvest-to-Pack</span>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -117,6 +136,52 @@
       </div>
     </section>
 
+    <!-- ── TESTIMONIALS ── -->
+    <section class="section" id="testimonials">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="eyebrow">Customer Love</span>
+          <h2>What Our Community Says</h2>
+          <p>Real people, real wellness transformations</p>
+        </div>
+        <div class="testimonials-grid">
+          <div class="testimonial-card reveal">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"The sprouted raagi flour has changed my family's health completely. My children love it and I love knowing exactly where it comes from."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">P</div>
+              <div class="author-info">
+                <h4>Priya Sharma</h4>
+                <p>Hyderabad, Telangana</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card reveal stagger-1">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"Palm jaggery from Shalini Devi is incomparable. Pure, unprocessed and you can taste the difference. Will never go back to refined sugar."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">R</div>
+              <div class="author-info">
+                <h4>Rajan Mehta</h4>
+                <p>Bangalore, Karnataka</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card reveal stagger-2">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"My ayurvedic doctor recommended moringa powder and I've been ordering from here for 8 months. Quality is absolutely consistent every time."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">A</div>
+              <div class="author-info">
+                <h4>Ananya Krishnan</h4>
+                <p>Chennai, Tamil Nadu</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <footer>
       <div class="container">
         <div class="footer-grid">
@@ -161,33 +226,39 @@
 
     <script src="scripts/products.js"></script>
     <script src="scripts/cart.js"></script>
+    <script src="scripts/cardFeatures.js"></script>
     <script src="scripts/animations.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const featuredGrid = document.getElementById('featured-products');
         if (featuredGrid) {
+          console.log("Rendering featured products...");
           // Pick 4 diverse products for the home page
           const highlightedIds = [5, 12, 22, 30]; 
           const highlighted = PRODUCTS.filter(p => highlightedIds.includes(p.id));
           
-          featuredGrid.innerHTML = highlighted.map(product => `
-            <div class="product-card">
-              <span class="product-badge">Featured</span>
-              <div class="product-image-container">
-                <img src="${product.img}" alt="${product.name}" class="product-img" />
-              </div>
-              <div class="product-info">
-                <h3>${product.name}</h3>
-                <p style="opacity: 0.6; font-size: 0.85rem; margin-bottom: 10px;">${product.category}</p>
-                <div class="product-meta">
-                  <span class="price">${product.priceRange}</span>
-                  <button class="add-btn" onclick="addToCart({id: ${product.id}, name: '${product.name.replace(/'/g, "\\'")}', price: ${product.priceNumeric}, img: '${product.img}'}, this)">
-                    <i class="fas fa-plus"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          `).join('');
+          if (highlighted.length > 0) {
+            featuredGrid.innerHTML = highlighted.map((product, i) => {
+              try {
+                return generateCardHTML(product, i);
+              } catch (e) {
+                console.error("Error generating card for product:", product.id, e);
+                return "";
+              }
+            }).join('');
+            
+            // Trigger card action updates
+            if (typeof updateAllCardActions === 'function') {
+              updateAllCardActions();
+            }
+
+            // Re-init scroll reveals for new cards
+            if (typeof initScrollReveal === 'function') {
+              initScrollReveal();
+            }
+          } else {
+            console.warn("No highlighted products found!");
+          }
         }
       });
     </script>
