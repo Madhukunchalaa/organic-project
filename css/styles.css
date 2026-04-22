@@ -1744,3 +1744,91 @@ body.dark .weight-chip.active {
 body.dark .btn-add-unique {
     color: var(--bg-main) !important;
 }
+
+/* --- Mobile App Experience Overhaul --- */
+@media (max-width: 768px) {
+  /* Global Adjustments */
+  .container { padding: 0 15px !important; }
+  .section { padding: 60px 0 !important; }
+  .section-header h2 { font-size: 2.5rem; }
+
+  /* Navbar App Layout */
+  .logo img { height: 60px !important; }
+  .nav-links { display: none !important; }
+  .nav-actions { gap: 15px; }
+  .nav-actions i { font-size: 1.4rem !important; }
+  
+  /* Hero Overhaul */
+  .hero { min-height: 70vh !important; }
+  .hero-content h1 { font-size: 3rem !important; line-height: 1.1; }
+
+  /* THE APP-LIKE PRODUCT CARD */
+  .products-grid { grid-template-columns: 1fr !important; gap: 30px; }
+  .product-card {
+    padding: 0 !important;
+    border-radius: 20px !important;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .product-image-container {
+    height: 380px !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+  }
+  .product-image-container img { border-radius: 0 !important; }
+  .product-info { padding: 25px 20px !important; }
+  .product-info h3 { font-size: 1.6rem !important; }
+  .price { font-size: 1.8rem !important; }
+  
+  /* Large Thumb Targets */
+  .weight-chips { margin-bottom: 25px !important; }
+  .weight-chip {
+    padding: 12px 0 !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    flex: 1;
+    text-align: center;
+    justify-content: center;
+  }
+  .btn-add-unique {
+    width: 60px !important;
+    height: 60px !important;
+    font-size: 1.6rem !important;
+  }
+
+  /* CART & CHECKOUT MOBILE */
+  .cart-layout { grid-template-columns: 1fr !important; gap: 40px !important; }
+  .premium-cart-item {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 15px !important;
+  }
+  .premium-cart-item img {
+    width: 100% !important;
+    height: 250px !important;
+    margin-bottom: 15px !important;
+  }
+  .premium-cart-item-actions {
+    flex-direction: column !important;
+    gap: 15px !important;
+    align-items: flex-start !important;
+  }
+  .qty-stepper { width: 100%; justify-content: space-between; }
+  .stepper-btn {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 1.5rem !important;
+  }
+  .remove-btn-premium {
+    width: 100% !important;
+    text-align: center;
+    padding: 15px 0 !important;
+    background: rgba(231, 76, 60, 0.05);
+    border-radius: 12px;
+  }
+  .form-row { grid-template-columns: 1fr !important; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr !important; text-align: center; gap: 40px; }
+}
