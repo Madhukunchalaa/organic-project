@@ -1,90 +1,83 @@
-// Cart Management logic
-let cart = JSON.parse(localStorage.getItem("vedicCart")) || [];
+var cart = JSON.parse(localStorage.getItem("vedicCart")) || [];
 
 function updateCartUI() {
   const cartCount = document.getElementById("cart-count");
   if (cartCount) {
-    cartCount.innerText = cart.reduce(
-      (total, item) => total + item.quantity,
-      0,
-    );
+    const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+    cartCount.innerText = total;
+    cartCount.style.transform = 'scale(1.4)';
+    setTimeout(() => cartCount.style.transform = 'scale(1)', 200);
   }
 }
 
-function addToCart(product, sourceElement) {
-  const existingItem = cart.find((item) => item.id === product.id);
-  if (existingItem) {
-    existingItem.quantity += 1;
+function addToCart(product) {
+  addVariantToCart({
+    id: product.id,
+    variantId: product.id + '-Standard',
+    name: product.name,
+    price: product.price,
+    img: product.img,
+    weightLabel: 'Standard'
+  });
+}
+
+function addVariantToCart(variantItem) {
+  const existing = cart.find(item => item.variantId === variantItem.variantId);
+  if (existing) {
+    existing.quantity += 1;
   } else {
-    cart.push({ ...product, quantity: 1 });
+    cart.push({ ...variantItem, quantity: 1 });
   }
 
-  saveCart();
-  
-  if (sourceElement) {
-      triggerFlyAnimation(sourceElement);
-  } else {
-      updateCartUI();
-      showToast(`${product.name} added to basket!`);
-  }
-}
-
-function triggerFlyAnimation(button) {
-    const card = button.closest('.product-card');
-    const img = card.querySelector('.product-img');
-    const cartIcon = document.querySelector('.cart-icon');
-    
-    if (!img || !cartIcon) return;
-
-    const imgRect = img.getBoundingClientRect();
-    const cartRect = cartIcon.getBoundingClientRect();
-
-    // Create clone
-    const clone = img.cloneNode();
-    clone.className = 'flying-image';
-    clone.style.top = `${imgRect.top}px`;
-    clone.style.left = `${imgRect.left}px`;
-    clone.style.width = `${imgRect.width}px`;
-    clone.style.height = `${imgRect.height}px`;
-    
-    document.body.appendChild(clone);
-
-    // Start animation
-    setTimeout(() => {
-        clone.style.top = `${cartRect.top}px`;
-        clone.style.left = `${cartRect.left}px`;
-        clone.style.width = '20px';
-        clone.style.height = '20px';
-        clone.style.opacity = '0';
-    }, 10);
-
-    clone.addEventListener('transitionend', () => {
-        clone.remove();
-        
-        // Update UI and show feedback after landing
-        updateCartUI();
-        cartIcon.classList.add('bump');
-        setTimeout(() => cartIcon.classList.remove('bump'), 500);
-    });
-}
-
-function removeFromCart(productId) {
-  cart = cart.filter((item) => item.id !== productId);
   saveCart();
   updateCartUI();
   updateCartDisplay();
+  showToast(`${variantItem.name} added to basket!`, { img: variantItem.img });
+
+  if (typeof updateAllCardActions === 'function') updateAllCardActions();
+  if (typeof updateModalActions === 'function' && window.currentModalProductId) {
+    updateModalActions(window.currentModalProductId);
+  }
 }
 
-function updateQuantity(productId, delta) {
-  const item = cart.find((i) => i.id === productId);
+function removeFromCart(variantId, elementToRemove) {
+  cart = cart.filter(item => item.variantId !== variantId);
+  saveCart();
+  updateCartUI();
+
+  if (elementToRemove) {
+    elementToRemove.style.transition = 'all 0.3s ease';
+    elementToRemove.style.transform = 'translateX(-30px)';
+    elementToRemove.style.opacity = '0';
+    setTimeout(() => updateCartDisplay(), 300);
+  } else {
+    updateCartDisplay();
+  }
+
+  if (typeof updateAllCardActions === 'function') updateAllCardActions();
+  if (typeof updateModalActions === 'function' && window.currentModalProductId) {
+    updateModalActions(window.currentModalProductId);
+  }
+}
+
+function updateQuantity(variantId, delta) {
+  updateVariantQuantity(variantId, delta);
+}
+
+function updateVariantQuantity(variantId, delta) {
+  const item = cart.find(i => i.variantId === variantId);
   if (item) {
     item.quantity += delta;
     if (item.quantity <= 0) {
-      removeFromCart(productId);
+      removeFromCart(variantId);
     } else {
       saveCart();
       updateCartUI();
       updateCartDisplay();
+      if (typeof updateAllCardActions === 'function') updateAllCardActions();
+      if (typeof updateModalActions === 'function' && window.currentModalProductId) {
+        updateModalActions(window.currentModalProductId);
+      }
     }
   }
 }
@@ -97,238 +90,266 @@ function updateCartDisplay() {
   const cartContainer = document.getElementById("cart-items");
   const subtotalEle = document.getElementById("cart-subtotal");
   const totalEle = document.getElementById("cart-total");
+  const checkBtn = document.querySelector(".cart-summary-footer .btn-primary");
+  const drawerContainer = document.getElementById("cart-drawer-items");
+  const drawerSubtotalEle = document.getElementById("cart-drawer-subtotal");
 
-  if (!cartContainer) return;
+  const fmt = (n) => `₹${n.toFixed(2)}`;
+  let subtotal = 0;
+  cart.forEach(item => subtotal += item.price * item.quantity);
 
+  // Main cart page
+  if (cartContainer) {
+    if (cart.length === 0) {
+      cartContainer.innerHTML = `
+        <div class="cart-empty">
+          <div class="cart-empty-icon"><i class="fas fa-shopping-basket"></i></div>
+          <h3>Your basket is empty</h3>
+          <p>Looks like you haven't added any organic treasures yet.</p>
+          <a href="shop.html" class="btn btn-solid">Continue Shopping</a>
+        </div>`;
+      if (checkBtn) checkBtn.disabled = true;
+    } else {
+      if (checkBtn) checkBtn.disabled = false;
+      cartContainer.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <img src="${item.img}" alt="${item.name}" class="cart-item-img">
+          <div class="cart-item-info">
+            <h4>${item.name}</h4>
+            <div class="cat">${item.weightLabel || ''}</div>
+            <div class="unit-price">${fmt(item.price)} each</div>
+          </div>
+          <div class="qty-controls">
+            <button class="qty-btn" onclick="updateVariantQuantity('${item.variantId}', -1)" aria-label="Decrease">−</button>
+            <div class="qty-display">${item.quantity}</div>
+            <button class="qty-btn" onclick="updateVariantQuantity('${item.variantId}', 1)" aria-label="Increase">+</button>
+          </div>
+          <div class="cart-item-total">${fmt(item.price * item.quantity)}</div>
+          <button class="cart-remove-btn" onclick="removeFromCart('${item.variantId}', this.closest('.cart-item'))" aria-label="Remove">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>`).join('');
+    }
+    if (subtotalEle) subtotalEle.innerText = fmt(subtotal);
+    if (totalEle) totalEle.innerText = fmt(subtotal);
+  }
+
+  // Slide-out drawer
+  if (drawerContainer) {
+    if (cart.length === 0) {
+      drawerContainer.innerHTML = `
+        <div class="cart-drawer-empty">
+          <i class="fas fa-shopping-basket"></i>
+          <h4>Your basket is empty</h4>
+          <p>Discover our purely organic collection.</p>
+          <a href="shop.html" class="btn btn-solid" style="padding:10px 24px;">Start Shopping</a>
+        </div>`;
+      const drawerFooter = document.querySelector('.cart-drawer-footer');
+      if (drawerFooter) drawerFooter.style.display = 'none';
+    } else {
+      const drawerFooter = document.querySelector('.cart-drawer-footer');
+      if (drawerFooter) drawerFooter.style.display = 'block';
+      drawerContainer.innerHTML = cart.map(item => `
+        <div class="cart-drawer-item">
+          <img src="${item.img}" alt="${item.name}" class="cart-drawer-item-img">
+          <div class="cart-drawer-item-info">
+            <h4>${item.name}</h4>
+            <div class="cart-drawer-item-price">${fmt(item.price)}</div>
+            <div class="cart-drawer-qty-actions">
+              <div class="cart-drawer-qty">
+                <button onclick="updateVariantQuantity('${item.variantId}', -1)">−</button>
+                <span>${item.quantity}</span>
+                <button onclick="updateVariantQuantity('${item.variantId}', 1)">+</button>
+              </div>
+              <button class="cart-drawer-remove" onclick="removeFromCart('${item.variantId}')">Remove</button>
+            </div>
+          </div>
+        </div>`).join('');
+    }
+    if (drawerSubtotalEle) drawerSubtotalEle.innerText = fmt(subtotal);
+  }
+}
+
+// ── Cart Drawer ──
+function openCartDrawer() {
+  const backdrop = document.getElementById('cart-drawer-backdrop');
+  const panel = document.getElementById('cart-drawer');
+  if (backdrop) backdrop.classList.add('active');
+  if (panel) panel.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  updateCartDisplay();
+}
+
+function closeCartDrawer() {
+  const backdrop = document.getElementById('cart-drawer-backdrop');
+  const panel = document.getElementById('cart-drawer');
+  if (backdrop) backdrop.classList.remove('active');
+  if (panel) panel.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── Toast ──
+function showToast(message, options = {}) {
+  const { img, type = 'success' } = options;
+  const accent = type === 'error' ? '#c0714f' : '#ACC555';
+  const bg     = type === 'error' ? '#6b3a22' : '#2e3b1f';
+
+  const label = img
+    ? `<div style="font-weight:600;font-size:0.75rem;opacity:0.7;letter-spacing:0.5px;margin-bottom:3px;">ADDED TO BASKET</div>
+       <div style="font-size:0.9rem;">${message.replace(' added to basket!', '')}</div>`
+    : `<div style="font-size:0.9rem;">${message}</div>`;
+
+  const imgHtml = img
+    ? `<img src="${img}" style="width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;margin-right:12px;">`
+    : `<i class="fas fa-check-circle" style="font-size:1.1rem;color:${accent};margin-right:10px;flex-shrink:0;"></i>`;
+
+  Toastify({
+    text: `<div style="display:flex;align-items:center;">${imgHtml}<div>${label}</div></div>`,
+    escapeMarkup: false,
+    duration: 3000,
+    gravity: 'bottom',
+    position: 'right',
+    stopOnFocus: true,
+    style: {
+      background: bg,
+      borderRadius: '12px',
+      padding: '12px 18px',
+      boxShadow: '0 8px 32px rgba(0,0,0,0.35)',
+      borderLeft: `4px solid ${accent}`,
+      fontFamily: 'Inter, sans-serif',
+      color: '#fff',
+      maxWidth: '340px',
+    },
+  }).showToast();
+}
+
+// ── Theme ──
+function toggleTheme() {
+  const isDark = document.body.classList.toggle('dark');
+  localStorage.setItem('theme-ShaliniDevi', isDark ? 'dark' : 'light');
+  const icon = document.getElementById('theme-icon');
+  if (icon) icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+}
+
+// ── Checkout Flow ──
+function initCheckout() {
   if (cart.length === 0) {
-    cartContainer.innerHTML =
-      '<p style="padding: 40px; text-align: center; opacity: 0.5;">Your basket is currently empty.</p>';
-    if (subtotalEle) subtotalEle.innerText = "₹0.00";
-    if (totalEle) totalEle.innerText = "₹0.00";
+    showToast('Add some treasures to your basket first!');
     return;
   }
-
-  let html = "";
-  let subtotal = 0;
-
-  cart.forEach((item) => {
-    subtotal += item.price * item.quantity;
-    html += `
-      <div style="display: flex; align-items: center; gap: 20px; background: var(--bg-white); padding: 20px; border-radius: var(--radius); margin-bottom: 20px; box-shadow: var(--shadow-sm);">
-        <img src="${item.img}" alt="${item.name}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
-        <div style="flex: 1;">
-          <h4 style="margin-bottom: 5px;">${item.name}</h4>
-          <p style="color: var(--primary); font-weight: 600;">₹${item.price.toFixed(2)}</p>
-        </div>
-        <div style="display: flex; align-items: center; gap: 15px;">
-          <button onclick="updateQuantity(${item.id}, -1)" style="border: 1px solid rgba(0,0,0,0.1); background: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;">-</button>
-          <span>${item.quantity}</span>
-          <button onclick="updateQuantity(${item.id}, 1)" style="border: 1px solid rgba(0,0,0,0.1); background: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;">+</button>
-        </div>
-        <div style="font-weight: 600; width: 100px; text-align: right;">
-          ₹${(item.price * item.quantity).toFixed(2)}
-        </div>
-        <button onclick="removeFromCart(${item.id})" style="border: none; background: none; color: #ff4d4d; cursor: pointer; padding: 10px;">
-          <i class="fas fa-trash"></i>
-        </button>
-      </div>
-    `;
-  });
-
-  cartContainer.innerHTML = html;
-  if (subtotalEle) subtotalEle.innerText = `₹${subtotal.toFixed(2)}`;
-  if (totalEle) totalEle.innerText = `₹${subtotal.toFixed(2)}`;
-}
-
-function showToast(message) {
-  const toast = document.createElement("div");
-  toast.className = "toast";
-  toast.innerHTML = `<i class="fas fa-check-circle" style="margin-right: 10px; color: var(--accent);"></i> ${message}`;
-  document.body.appendChild(toast);
-
-  setTimeout(() => {
-    toast.classList.add("show");
-  }, 100);
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-    setTimeout(() => toast.remove(), 400);
-  }, 3000);
-}
-
-// Styles for toast
-const toastStyles = `
-.toast {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: var(--primary);
-    color: white;
-    padding: 16px 32px;
-    border-radius: 50px;
-    box-shadow: var(--shadow-lg);
-    transform: translateY(120px);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 2000;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-}
-.toast.show {
-    transform: translateY(0);
-}
-`;
-
-const styleSheet = document.createElement("style");
-styleSheet.innerText = toastStyles;
-document.head.appendChild(styleSheet);
-
-// Theme Management
-function initTheme() {
-  const savedTheme = localStorage.getItem("theme") || "light";
-  if (savedTheme === "dark") {
-    document.body.classList.add("dark");
-    updateThemeIcon("dark");
+  const mainWrapper = document.getElementById('cart-main-wrapper');
+  const checkoutSec = document.getElementById('checkout-section');
+  if (mainWrapper) {
+    mainWrapper.style.opacity = '0';
+    mainWrapper.style.transition = 'opacity 0.3s ease';
+    setTimeout(() => {
+      mainWrapper.style.display = 'none';
+      if (checkoutSec) {
+        checkoutSec.style.display = 'grid';
+        void checkoutSec.offsetWidth;
+        checkoutSec.style.opacity = '1';
+      }
+    }, 300);
   }
 }
 
-function toggleTheme() {
-  const isDark = document.body.classList.toggle("dark");
-  const theme = isDark ? "dark" : "light";
-  localStorage.setItem("theme", theme);
-  updateThemeIcon(theme);
-}
-
-function updateThemeIcon(theme) {
-  const icon = document.getElementById("theme-icon");
-  if (icon) {
-    icon.className = theme === "dark" ? "fas fa-sun" : "fas fa-moon";
+function cancelCheckout() {
+  const mainWrapper = document.getElementById('cart-main-wrapper');
+  const checkoutSec = document.getElementById('checkout-section');
+  if (checkoutSec) {
+    checkoutSec.style.opacity = '0';
+    setTimeout(() => {
+      checkoutSec.style.display = 'none';
+      if (mainWrapper) {
+        mainWrapper.style.display = 'grid';
+        void mainWrapper.offsetWidth;
+        mainWrapper.style.opacity = '1';
+      }
+    }, 300);
   }
-}
-
-// Checkout Logic
-function initCheckout() {
-    const cartSummary = document.querySelector('.cart-summary');
-    const cartItems = document.getElementById('cart-items');
-    
-    if (cart.length === 0) {
-        showToast("Add some treasures to your basket first!");
-        return;
-    }
-
-    // Hide cart UI
-    if (cartItems) cartItems.style.display = 'none';
-    if (cartSummary) cartSummary.style.display = 'none';
-
-    // Show Checkout Form
-    const checkoutSec = document.getElementById('checkout-section');
-    if (checkoutSec) checkoutSec.classList.add('active');
 }
 
 function placeOrder(e) {
-    if (e) e.preventDefault();
+  if (e) e.preventDefault();
+  // Validate form
+  const name = document.getElementById('fullname')?.value.trim();
+  const email = document.getElementById('email')?.value.trim();
+  if (!name || !email) { showToast('Please fill in all required fields.'); return; }
 
-    // Validation
-    const name = document.getElementById('fullname').value;
-    const address = document.getElementById('address').value;
-    if (!name || !address) {
-        showToast("Please provide delivery details.");
-        return;
-    }
+  const checkoutSec = document.getElementById('checkout-section');
+  const paymentOverlay = document.getElementById('payment-overlay');
 
-    // Transition to Animation
-    const checkoutSec = document.getElementById('checkout-section');
-    const deliveryAnim = document.getElementById('delivery-animation');
-    
-    if (checkoutSec) checkoutSec.classList.remove('active');
-    if (deliveryAnim) deliveryAnim.classList.add('active');
-
-    startTruckAnimation();
-}
-
-function startTruckAnimation() {
-    const truck = document.getElementById('delivery-truck');
-    const status = document.getElementById('status-label');
-    const track = document.querySelector('.track-container');
-
-    const steps = [
-        { label: "Authenticating Premium Payment...", delay: 0 },
-        { label: "Traditional Vedic Packaging...", delay: 1500 },
-        { label: "Goods Collected and Dispatched!", delay: 3000 },
-        { label: "Your order is on the way to you!", delay: 4500 }
-    ];
-
-    steps.forEach(step => {
-        setTimeout(() => {
-            if (status) status.innerText = step.label;
-            
-            // At the collection step, fly some goods into the truck
-            if (step.label.includes("Collected")) {
-                flyGoodsIntoTruck(track, truck);
-            }
-
-            // Start truck movement
-            if (step.label.includes("way")) {
-                if (truck) truck.classList.add('driving');
-            }
-        }, step.delay);
-    });
-
-    // Success Screen
+  if (checkoutSec) {
+    checkoutSec.style.opacity = '0';
     setTimeout(() => {
-        const deliveryAnim = document.getElementById('delivery-animation');
-        if (deliveryAnim) {
-            deliveryAnim.innerHTML = `
-                <div style="animation: fadeIn 1s ease-out;">
-                    <i class="fas fa-check-circle" style="font-size: 5rem; color: var(--accent); margin-bottom: 25px;"></i>
-                    <h2 style="font-size: 3rem; margin-bottom: 20px;">Order Confirmed!</h2>
-                    <p style="font-size: 1.2rem; opacity: 0.7; max-width: 500px; margin: 0 auto 40px;">
-                        Your treasures have been dispatched from our estate. 
-                        Estimated arrival: <strong>2-3 traditional harvest days</strong>.
-                    </p>
-                    <a href="index.html" class="btn">Return to Estate</a>
-                </div>
-            `;
+      checkoutSec.style.display = 'none';
+      if (paymentOverlay) {
+        paymentOverlay.style.display = 'flex';
+        void paymentOverlay.offsetWidth;
+        paymentOverlay.classList.add('active');
+        startPaymentAnimation();
+      }
+    }, 300);
+  }
+}
+
+function startPaymentAnimation() {
+  const steps = [
+    { id: 'pay-step-1', delay: 0 },
+    { id: 'pay-step-2', delay: 1400 },
+    { id: 'pay-step-3', delay: 2800 },
+  ];
+
+  steps.forEach(({ id, delay }) => {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('active');
+    }, delay);
+  });
+
+  // Show success
+  setTimeout(() => {
+    const paymentOverlay = document.getElementById('payment-overlay');
+    const successScreen = document.getElementById('order-success');
+    if (paymentOverlay) {
+      paymentOverlay.style.opacity = '0';
+      setTimeout(() => {
+        paymentOverlay.style.display = 'none';
+        if (successScreen) {
+          successScreen.style.display = 'flex';
+          void successScreen.offsetWidth;
+          successScreen.classList.add('active');
         }
-        // Clear cart
-        cart = [];
-        saveCart();
-        updateCartUI();
-    }, 8000);
-}
-
-function flyGoodsIntoTruck(track, truck) {
-    if (!track || !truck) return;
-    
-    for (let i = 0; i < Math.min(cart.length, 5); i++) {
-        setTimeout(() => {
-            const icon = document.createElement('i');
-            icon.className = `fas fa-leaf cargo-icon`;
-            icon.style.left = '10%';
-            icon.style.top = '20%';
-            track.appendChild(icon);
-
-            // Animate to truck
-            setTimeout(() => {
-                const truckPos = truck.getBoundingClientRect();
-                const trackPos = track.getBoundingClientRect();
-                
-                icon.style.opacity = '1';
-                icon.style.left = '50%';
-                icon.style.top = '50%';
-                icon.style.transform = 'scale(0.5)';
-                
-                setTimeout(() => icon.remove(), 800);
-            }, 50);
-        }, i * 300);
+      }, 400);
     }
+    // Clear cart
+    cart = [];
+    saveCart();
+    updateCartUI();
+  }, 4800);
 }
 
-// Initialize UI
-document.addEventListener("DOMContentLoaded", () => {
-  initTheme();
+// ── Nav Drawer ──
+function openDrawer() {
+  const drawer = document.getElementById('nav-drawer');
+  if (drawer) drawer.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDrawer() {
+  const drawer = document.getElementById('nav-drawer');
+  if (drawer) drawer.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', () => {
   updateCartUI();
-  if (document.getElementById("cart-items")) {
-    updateCartDisplay();
+  updateCartDisplay();
+  const savedTheme = localStorage.getItem('theme-ShaliniDevi');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark');
+    const icon = document.getElementById('theme-icon');
+    if (icon) icon.className = 'fas fa-sun';
   }
 });

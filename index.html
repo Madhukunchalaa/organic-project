@@ -3,193 +3,332 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shalini Devi Health Products | Premium Organic Heritage</title>
+    <meta name="description" content="Shalini Devi Health Products — Premium organic, traditional Indian health foods sourced directly from farmers." />
+    <title>Shalini Devi | Premium Organic Health Products</title>
     <link rel="stylesheet" href="css/styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
   </head>
-  <body>
-    <nav>
+  <body class="page-enter">
+
+    <!-- ── NAVBAR ── -->
+    <nav id="main-nav">
       <div class="container">
         <a href="index.html" class="logo">
-          <img src="assets/logo.svg" alt="Shalini Devi">
+          <img src="assets/logo.svg" alt="Shalini Devi Health Products" />
         </a>
         <div class="nav-links">
-          <a href="index.html">Home</a>
+          <a href="index.html" class="active">Home</a>
           <a href="shop.html">The Collection</a>
           <a href="process.html">Process</a>
           <a href="heritage.html">Heritage</a>
           <a href="concierge.html">Concierge</a>
         </div>
         <div class="nav-actions">
-          <i class="fas fa-moon" id="theme-icon" onclick="toggleTheme()"></i>
-          <i class="fas fa-search"></i>
-          <i class="far fa-user"></i>
-          <a href="cart.html" class="cart-icon">
+          <button class="nav-icon-btn" id="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle dark mode">
+            <i class="fas fa-moon" id="theme-icon"></i>
+          </button>
+          <button class="nav-icon-btn cart-icon" id="cart-nav-btn" aria-label="View cart" onclick="window.location.href='cart.html'">
             <i class="fas fa-shopping-bag"></i>
             <span class="cart-count" id="cart-count">0</span>
-          </a>
+          </button>
+          <button class="nav-hamburger" id="hamburger-btn" aria-label="Open menu" onclick="openDrawer()">
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
     </nav>
 
-    <header class="hero hero-luxury" style="background: url('hero_fresh_organic_vibe_2024_1776786332460.png') no-repeat center center/cover;">
+    <!-- Mobile Drawer -->
+    <div class="nav-drawer" id="nav-drawer">
+      <div class="nav-drawer-backdrop" onclick="closeDrawer()"></div>
+      <div class="nav-drawer-panel">
+        <button class="close-btn" onclick="closeDrawer()"><i class="fas fa-times"></i></button>
+        <a href="index.html" onclick="closeDrawer()"><i class="fas fa-home"></i> Home</a>
+        <a href="shop.html" onclick="closeDrawer()"><i class="fas fa-store"></i> The Collection</a>
+        <a href="process.html" onclick="closeDrawer()"><i class="fas fa-leaf"></i> Our Process</a>
+        <a href="heritage.html" onclick="closeDrawer()"><i class="fas fa-landmark"></i> Heritage</a>
+        <a href="concierge.html" onclick="closeDrawer()"><i class="fas fa-concierge-bell"></i> Concierge</a>
+      </div>
+    </div>
+
+    <!-- Slide-out Cart Drawer -->
+    <div class="cart-drawer-backdrop" id="cart-drawer-backdrop" onclick="closeCartDrawer()"></div>
+    <div class="cart-drawer-panel" id="cart-drawer">
+      <div class="cart-drawer-header">
+        <h3><i class="fas fa-shopping-basket"></i> Your Basket</h3>
+        <button class="cart-drawer-close" onclick="closeCartDrawer()" aria-label="Close cart"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="cart-drawer-body" id="cart-drawer-items">
+        <!-- Rendered by JS -->
+      </div>
+      <div class="cart-drawer-footer">
+        <div class="cart-drawer-total">
+          <span>Subtotal</span>
+          <span id="cart-drawer-subtotal">₹0.00</span>
+        </div>
+        <a href="cart.html" class="btn btn-primary">Checkout Safely <i class="fas fa-lock"></i></a>
+      </div>
+    </div>
+
+    <!-- ── HERO ── -->
+    <header class="hero" style="background: url('hero_fresh_organic_vibe_2024_1776786332460.png') no-repeat center center / cover;" id="home-hero">
       <div class="hero-content">
-        <h1>Nature's Purest Harvest</h1>
-        <p>
-          Experience the pinnacle of organic luxury. Traditional Indian 
-          heritage met with modern wellness.
-        </p>
-        <a href="shop.html" class="btn">Shop the Collection</a>
+        <div class="hero-eyebrow reveal">
+          <i class="fas fa-seedling"></i>
+          100% Certified Organic &nbsp;·&nbsp; Farm to Doorstep
+        </div>
+        <h1 class="reveal stagger-1">Nature's Purest<br>Harvest</h1>
+        <p class="reveal stagger-2">Experience the pinnacle of organic luxury — where traditional Indian heritage meets modern wellness.</p>
+        <div class="hero-actions reveal stagger-3">
+          <a href="shop.html" class="btn btn-primary">
+            <i class="fas fa-store"></i> Shop the Collection
+          </a>
+          <a href="heritage.html" class="btn btn-outline">
+            Our Story <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
       </div>
     </header>
 
-    <section class="section">
-      <div class="container">
-        <div class="section-header">
-          <h2>Curated Categories</h2>
-          <p>Hand-selected organic treasures from the finest estates</p>
-        </div>
-        <div class="categories-slider">
-          <div class="category-card">
-            <img src="assets/hero_premium.png" alt="Premium Grains" />
-            <div class="category-info">
-              <h3>Heritage Grains</h3>
-              <a href="shop.html?cat=grains" class="shop-link">Explore Now <i class="fas fa-arrow-right"></i></a>
-            </div>
-          </div>
-          <div class="category-card">
-            <img src="assets/cat_spices.png" alt="Exotic Spices" />
-            <div class="category-info">
-              <h3>Exotic Spices</h3>
-              <a href="shop.html?cat=spices" class="shop-link">Explore Now <i class="fas fa-arrow-right"></i></a>
-            </div>
-          </div>
-          <div class="category-card">
-            <img src="assets/cat_oils.png" alt="Vital Essences" />
-            <div class="category-info">
-              <h3>Pure Essences</h3>
-              <a href="shop.html?cat=oils" class="shop-link">Explore Now <i class="fas fa-arrow-right"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
+    <!-- ── FEATURES BAND ── -->
     <section class="features-band">
       <div class="container">
         <div class="features-grid">
-          <div class="feature-item">
-            <i class="fas fa-seedling"></i>
+          <div class="feature-item reveal">
+            <div class="feature-icon"><i class="fas fa-seedling"></i></div>
             <h4>100% Organic</h4>
-            <p>Certified soil-to-soul purity</p>
+            <p>Certified soil-to-soul purity with rigorous testing</p>
           </div>
-          <div class="feature-item">
-            <i class="fas fa-hand-holding-heart"></i>
+          <div class="feature-item reveal stagger-1">
+            <div class="feature-icon"><i class="fas fa-hand-holding-heart"></i></div>
             <h4>Ethical Sourcing</h4>
-            <p>Direct from traditional farmers</p>
+            <p>Direct partnerships with traditional farmers</p>
           </div>
-          <div class="feature-item">
-            <i class="fas fa-truck-fast"></i>
+          <div class="feature-item reveal stagger-2">
+            <div class="feature-icon"><i class="fas fa-truck-fast"></i></div>
             <h4>Swift Delivery</h4>
-            <p>Freshness preserved in transit</p>
+            <p>Freshness preserved throughout transit</p>
           </div>
-          <div class="feature-item">
-            <i class="fas fa-shield-halved"></i>
+          <div class="feature-item reveal stagger-3">
+            <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
             <h4>Quality Assured</h4>
-            <p>Rigorous lab testing for purity</p>
+            <p>Lab-verified purity on every single batch</p>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- ── CATEGORIES ── -->
     <section class="section">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
+          <span class="eyebrow">Browse by Category</span>
+          <h2>Curated Collections</h2>
+          <p>Hand-selected organic treasures from the finest estates across Bharat</p>
+        </div>
+        <div class="categories-slider">
+          <div class="category-card reveal">
+            <img src="assets/hero_premium.png" alt="Heritage Grains" loading="lazy"/>
+            <div class="category-info">
+              <h3>Heritage Grains</h3>
+              <a href="shop.html?cat=Millets" class="shop-link">
+                Explore Now <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+          <div class="category-card reveal stagger-1">
+            <img src="assets/cat_spices.png" alt="Exotic Spices" loading="lazy"/>
+            <div class="category-info">
+              <h3>Seeds & Spices</h3>
+              <a href="shop.html?cat=Seeds" class="shop-link">
+                Explore Now <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+          <div class="category-card reveal stagger-2">
+            <img src="assets/cat_oils.png" alt="Honey & Oils" loading="lazy"/>
+            <div class="category-info">
+              <h3>Honey & Oils</h3>
+              <a href="shop.html?cat=Honey" class="shop-link">
+                Explore Now <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FEATURED PRODUCTS ── -->
+    <section class="section" style="background: var(--cream-dark); padding-top: 80px; padding-bottom: 80px;">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="eyebrow">Seasonal Picks</span>
           <h2>Seasonal Highlights</h2>
           <p>Our most sought-after organic arrivals this month</p>
         </div>
         <div class="products-grid" id="featured-products">
-          <!-- Featured items will be rendered here -->
+          <!-- Rendered by JS -->
+        </div>
+        <div style="text-align: center; margin-top: 52px;" class="reveal">
+          <a href="shop.html" class="btn btn-solid">
+            View All Products <i class="fas fa-arrow-right"></i>
+          </a>
         </div>
       </div>
     </section>
 
+    <!-- ── TESTIMONIALS ── -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="eyebrow">Customer Love</span>
+          <h2>What Our Community Says</h2>
+          <p>Real people, real wellness transformations</p>
+        </div>
+        <div class="testimonials-grid">
+          <div class="testimonial-card reveal">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"The sprouted raagi flour has changed my family's health completely. My children love it and I love knowing exactly where it comes from."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">P</div>
+              <div>
+                <div class="author-name">Priya Sharma</div>
+                <div class="author-location">Hyderabad, Telangana</div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card reveal stagger-1">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"Palm jaggery from Shalini Devi is incomparable. Pure, unprocessed and you can taste the difference. Will never go back to refined sugar."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">R</div>
+              <div>
+                <div class="author-name">Rajan Mehta</div>
+                <div class="author-location">Bangalore, Karnataka</div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card reveal stagger-2">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"My ayurvedic doctor recommended moringa powder and I've been ordering from here for 8 months. Quality is absolutely consistent every time."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">A</div>
+              <div>
+                <div class="author-name">Ananya Krishnan</div>
+                <div class="author-location">Chennai, Tamil Nadu</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
     <footer>
       <div class="container">
         <div class="footer-grid">
-          <div class="footer-about">
-            <div class="footer-logo">Shalini Devi</div>
-            <p>
-              Nature's Tradition. Affordably Yours. Bringing the world's 
-              finest organic produce directly to your doorstep.
-            </p>
+          <div class="footer-brand">
+            <div class="footer-logo-text">Shalini Devi</div>
+            <p>Nature's Tradition. Affordably Yours. Bringing the world's finest organic produce directly to your doorstep since generations.</p>
+            <div class="footer-social">
+              <a href="#" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="social-btn" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+              <a href="#" class="social-btn" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
           </div>
-          <div class="footer-links">
+          <div class="footer-col">
             <h4>Heritage</h4>
             <ul>
               <li><a href="heritage.html">Our Story</a></li>
-              <li><a href="#">Farming Ethics</a></li>
+              <li><a href="process.html">Farming Ethics</a></li>
               <li><a href="#">Certifications</a></li>
+              <li><a href="#">Sustainability</a></li>
             </ul>
           </div>
-          <div class="footer-links">
+          <div class="footer-col">
             <h4>Concierge</h4>
             <ul>
               <li><a href="concierge.html">Contact Us</a></li>
-              <li><a href="#">Shipping</a></li>
-              <li><a href="#">Returns</a></li>
+              <li><a href="#">Shipping Policy</a></li>
+              <li><a href="#">Returns & Refunds</a></li>
               <li><a href="#">FAQ</a></li>
             </ul>
           </div>
           <div class="newsletter">
             <h4>Join the Inner Circle</h4>
-            <p>Exclusive access to seasonal harvests and organic insights.</p>
-            <form class="newsletter-form">
-              <input type="email" placeholder="Email Address" />
+            <p>Exclusive access to seasonal harvests, wellness tips, and member-only offers.</p>
+            <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+              <input type="email" placeholder="your@email.com" required aria-label="Email address" />
               <button type="submit">Join</button>
             </form>
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2024 Shalini Devi Health Products. All Rights Reserved. Crafted for Wellness.</p>
+          <p>&copy; 2024 Shalini Devi Health Products. All Rights Reserved.</p>
+          <div class="footer-bottom-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Cookie Policy</a>
+          </div>
         </div>
       </div>
     </footer>
 
+    <!-- Scroll to Top -->
+    <button class="scroll-top" id="scroll-top-btn" onclick="scrollToTop()" aria-label="Scroll to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Product Modal -->
+    <div id="product-modal-overlay" class="product-modal-overlay" onclick="if(event.target === this) closeProductModal()">
+        <div class="product-modal-box">
+            <div class="modal-header">
+                <span>Authentic Goodness</span>
+                <button class="modal-close-btn" onclick="closeProductModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="product-modal-content">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
     <script src="scripts/products.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.js"></script>
     <script src="scripts/cart.js"></script>
+    <script src="scripts/cardFeatures.js"></script>
     <script src="scripts/animations.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const featuredGrid = document.getElementById('featured-products');
-        if (featuredGrid) {
-          // Pick 4 diverse products for the home page
-          const highlightedIds = [5, 12, 22, 30]; 
-          const highlighted = PRODUCTS.filter(p => highlightedIds.includes(p.id));
+        if (featuredGrid && typeof PRODUCTS !== 'undefined') {
+          const highlightedIds = [5, 12, 22, 30, 42, 39, 41, 16];
+          const highlighted = PRODUCTS.filter(p => highlightedIds.includes(p.id)).slice(0, 8);
+          featuredGrid.innerHTML = highlighted.map((product, i) => generateCardHTML(product, i)).join('');
           
-          featuredGrid.innerHTML = highlighted.map(product => `
-            <div class="product-card">
-              <span class="product-badge">Featured</span>
-              <div class="product-image-container">
-                <img src="${product.img}" alt="${product.name}" class="product-img" />
-              </div>
-              <div class="product-info">
-                <h3>${product.name}</h3>
-                <p style="opacity: 0.6; font-size: 0.85rem; margin-bottom: 10px;">${product.category}</p>
-                <div class="product-meta">
-                  <span class="price">${product.priceRange}</span>
-                  <button class="add-btn" onclick="addToCart({id: ${product.id}, name: '${product.name.replace(/'/g, "\\'")}', price: ${product.priceNumeric}, img: '${product.img}'}, this)">
-                    <i class="fas fa-plus"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          `).join('');
+          // Initializations after rendering
+          setTimeout(() => updateAllCardActions(), 50);
+
+          // Re-observe new cards
+          if (typeof revealObserver !== 'undefined') {
+            document.querySelectorAll('.product-card.reveal').forEach(el => revealObserver.observe(el));
+          }
         }
       });
+
+      function handleNewsletter(e) {
+        e.preventDefault();
+        showToast('Welcome to the Inner Circle! 🌿');
+        e.target.reset();
+      }
+
+      function toggleWishlist(btn) {
+        btn.classList.toggle('active');
+        const icon = btn.querySelector('i');
+        icon.className = btn.classList.contains('active') ? 'fas fa-heart' : 'far fa-heart';
+        showToast(btn.classList.contains('active') ? 'Added to wishlist ❤️' : 'Removed from wishlist');
+      }
     </script>
   </body>
 </html>

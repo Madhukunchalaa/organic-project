@@ -3,91 +3,154 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Browse our full collection of 60+ premium organic products — grains, spices, dry fruits, laddus and more." />
     <title>The Collection | Shalini Devi Health Products</title>
     <link rel="stylesheet" href="css/styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
   </head>
-  <body>
-    <nav>
+  <body class="page-enter">
+
+    <!-- ── NAVBAR ── -->
+    <nav id="main-nav">
       <div class="container">
         <a href="index.html" class="logo">
-          <img src="assets/logo.svg" alt="Shalini Devi">
+          <img src="assets/logo.svg" alt="Shalini Devi Health Products" />
         </a>
         <div class="nav-links">
           <a href="index.html">Home</a>
-          <a href="shop.html">The Collection</a>
+          <a href="shop.html" class="active">The Collection</a>
           <a href="process.html">Process</a>
           <a href="heritage.html">Heritage</a>
           <a href="concierge.html">Concierge</a>
         </div>
         <div class="nav-actions">
-          <i class="fas fa-moon" id="theme-icon" onclick="toggleTheme()"></i>
-          <i class="fas fa-search"></i>
-          <i class="far fa-user"></i>
-          <a href="cart.html" class="cart-icon">
+          <button class="nav-icon-btn" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle dark mode">
+            <i class="fas fa-moon" id="theme-icon"></i>
+          </button>
+          <button class="nav-icon-btn cart-icon" id="cart-nav-btn" aria-label="View cart" onclick="window.location.href='cart.html'">
             <i class="fas fa-shopping-bag"></i>
             <span class="cart-count" id="cart-count">0</span>
-          </a>
+          </button>
+          <button class="nav-hamburger" aria-label="Open menu" onclick="openDrawer()">
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
     </nav>
 
-    <header class="hero hero-luxury" style="background: url('hero_organic_shop_1776785239046.png') no-repeat center center/cover; height: 50vh; min-height: 400px;">
-      <div class="hero-content" style="text-align: left; margin-left: 0;">
-        <h1 style="font-size: 4rem; color: #fff;">The Collection</h1>
-        <p style="color: #fff; opacity: 0.9; max-width: 600px;">Pure, traditional, and sustainably sourced treasures from the heart of Bharat.</p>
+    <!-- Mobile Drawer -->
+    <div class="nav-drawer" id="nav-drawer">
+      <div class="nav-drawer-backdrop" onclick="closeDrawer()"></div>
+      <div class="nav-drawer-panel">
+        <button class="close-btn" onclick="closeDrawer()"><i class="fas fa-times"></i></button>
+        <a href="index.html" onclick="closeDrawer()"><i class="fas fa-home"></i> Home</a>
+        <a href="shop.html" onclick="closeDrawer()"><i class="fas fa-store"></i> The Collection</a>
+        <a href="process.html" onclick="closeDrawer()"><i class="fas fa-leaf"></i> Our Process</a>
+        <a href="heritage.html" onclick="closeDrawer()"><i class="fas fa-landmark"></i> Heritage</a>
+        <a href="concierge.html" onclick="closeDrawer()"><i class="fas fa-concierge-bell"></i> Concierge</a>
+      </div>
+    </div>
+
+    <!-- Slide-out Cart Drawer -->
+    <div class="cart-drawer-backdrop" id="cart-drawer-backdrop" onclick="closeCartDrawer()"></div>
+    <div class="cart-drawer-panel" id="cart-drawer">
+      <div class="cart-drawer-header">
+        <h3><i class="fas fa-shopping-basket"></i> Your Basket</h3>
+        <button class="cart-drawer-close" onclick="closeCartDrawer()" aria-label="Close cart"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="cart-drawer-body" id="cart-drawer-items">
+        <!-- Rendered by JS -->
+      </div>
+      <div class="cart-drawer-footer">
+        <div class="cart-drawer-total">
+          <span>Subtotal</span>
+          <span id="cart-drawer-subtotal">₹0.00</span>
+        </div>
+        <a href="cart.html" class="btn btn-primary">Checkout Safely <i class="fas fa-lock"></i></a>
+      </div>
+    </div>
+
+    <!-- ── HERO ── -->
+    <header class="hero hero-small-hero" style="background: url('hero_organic_shop_1776785239046.png') no-repeat center center / cover;">
+      <div class="hero-content">
+        <div class="hero-eyebrow reveal">
+          <i class="fas fa-leaf"></i>
+          62 Premium Organic Products
+        </div>
+        <h1 class="reveal stagger-1">The Collection</h1>
+        <p class="reveal stagger-2">Pure, traditional and sustainably sourced treasures from the heart of Bharat.</p>
       </div>
     </header>
 
-    <section class="controls-section" style="padding: 20px 0; background: var(--bg-white); position: sticky; top: 70px; z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.05);">
+    <!-- ── SEARCH & FILTER ── -->
+    <section class="controls-section" id="controls-bar">
       <div class="container">
-        <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
-          <div style="flex: 1; min-width: 280px; position: relative;">
-            <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); opacity: 0.4;"></i>
-            <input type="text" id="product-search" placeholder="Search our collection..." style="width: 100%; padding: 12px 15px 12px 45px; border-radius: 50px; border: 1px solid rgba(0,0,0,0.1); background: var(--bg-white); color: var(--text-dark); transition: var(--transition);">
+        <div class="controls-wrapper">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="product-search" placeholder="Search our collection…" autocomplete="off" />
           </div>
-          <div style="width: 200px;">
-            <select id="category-filter" style="width: 100%; padding: 12px 20px; border-radius: 50px; border: 1px solid rgba(0,0,0,0.1); background: var(--bg-white); color: var(--text-dark); cursor: pointer; transition: var(--transition);">
-              <option value="All Categories">All Categories</option>
-            </select>
+          <div class="controls-filters-row">
+            <div class="filter-box">
+              <select id="category-filter" aria-label="Filter by category">
+                <option value="All Categories">All Categories</option>
+              </select>
+            </div>
+            <div class="filter-box">
+              <select id="sort-filter" aria-label="Sort products">
+                <option value="default">Sort: Featured</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="name-asc">Name: A-Z</option>
+              </select>
+            </div>
           </div>
+          <span class="results-count" id="results-count"></span>
         </div>
       </div>
     </section>
 
-    <section class="section" style="padding-top: 40px;">
+    <!-- ── PRODUCTS GRID ── -->
+    <section class="section section-sm" style="padding-top: 48px;">
       <div class="container">
         <div class="products-grid" id="shop-products">
-          <!-- Products will be dynamically rendered here by shop.js -->
+          <!-- Rendered by shop.js -->
+        </div>
+        <div id="no-results" style="display:none; text-align:center; padding:80px 20px;">
+          <div style="font-size:3rem; margin-bottom: 16px;">🔍</div>
+          <h3 style="margin-bottom: 12px;">No products found</h3>
+          <p style="color: var(--text-muted);">Try a different search term or browse all categories.</p>
         </div>
       </div>
     </section>
 
+    <!-- ── FOOTER ── -->
     <footer>
       <div class="container">
         <div class="footer-grid">
-          <div class="footer-about">
-            <div class="footer-logo">Shalini Devi</div>
-            <p>
-              Nature's Tradition. Affordably Yours. Bringing the world's 
-              finest organic produce directly to your doorstep.
-            </p>
+          <div class="footer-brand">
+            <div class="footer-logo-text">Shalini Devi</div>
+            <p>Nature's Tradition. Affordably Yours. Bringing the world's finest organic produce directly to your doorstep.</p>
+            <div class="footer-social">
+              <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+              <a href="#" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
           </div>
-          <div class="footer-links">
+          <div class="footer-col">
             <h4>Heritage</h4>
             <ul>
-              <li><a href="#">Our Story</a></li>
+              <li><a href="heritage.html">Our Story</a></li>
               <li><a href="#">Farming Ethics</a></li>
               <li><a href="#">Certifications</a></li>
             </ul>
           </div>
-          <div class="footer-links">
+          <div class="footer-col">
             <h4>Concierge</h4>
             <ul>
-              <li><a href="#">Contact Us</a></li>
+              <li><a href="concierge.html">Contact Us</a></li>
               <li><a href="#">Shipping</a></li>
               <li><a href="#">Returns</a></li>
               <li><a href="#">FAQ</a></li>
@@ -96,21 +159,51 @@
           <div class="newsletter">
             <h4>Join the Inner Circle</h4>
             <p>Exclusive access to seasonal harvests and organic insights.</p>
-            <form class="newsletter-form">
-              <input type="email" placeholder="Email Address" />
+            <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+              <input type="email" placeholder="your@email.com" required />
               <button type="submit">Join</button>
             </form>
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2024 Shalini Devi Health Products. All Rights Reserved. Crafted for Wellness.</p>
+          <p>&copy; 2024 Shalini Devi Health Products. All Rights Reserved.</p>
+          <div class="footer-bottom-links">
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+          </div>
         </div>
       </div>
     </footer>
 
+    <button class="scroll-top" id="scroll-top-btn" onclick="scrollToTop()" aria-label="Scroll to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Product Modal -->
+    <div id="product-modal-overlay" class="product-modal-overlay" onclick="if(event.target === this) closeProductModal()">
+        <div class="product-modal-box">
+            <div class="modal-header">
+                <span>Authentic Goodness</span>
+                <button class="modal-close-btn" onclick="closeProductModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="product-modal-content">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
     <script src="scripts/products.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.js"></script>
     <script src="scripts/cart.js"></script>
+    <script src="scripts/cardFeatures.js"></script>
     <script src="scripts/shop.js"></script>
     <script src="scripts/animations.js"></script>
+    <script>
+      function handleNewsletter(e) {
+        e.preventDefault();
+        showToast('Welcome to the Inner Circle! 🌿');
+        e.target.reset();
+      }
+    </script>
   </body>
 </html>

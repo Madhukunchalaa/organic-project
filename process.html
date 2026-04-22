@@ -3,126 +3,199 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Making Process | Shalini Devi Health Products</title>
+    <meta name="description" content="Discover our soil-to-soul process. Traditional farming, sun-drying, and zero-chemical pressing." />
+    <title>Our Process | Shalini Devi Health Products</title>
     <link rel="stylesheet" href="css/styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
   </head>
-  <body>
-    <nav>
+  <body class="page-enter">
+
+    <nav id="main-nav">
       <div class="container">
         <a href="index.html" class="logo">
-          <img src="assets/logo.svg" alt="Shalini Devi">
+          <img src="assets/logo.svg" alt="Shalini Devi Health Products" />
         </a>
         <div class="nav-links">
           <a href="index.html">Home</a>
           <a href="shop.html">The Collection</a>
-          <a href="process.html">Process</a>
+          <a href="process.html" class="active">Process</a>
           <a href="heritage.html">Heritage</a>
           <a href="concierge.html">Concierge</a>
         </div>
         <div class="nav-actions">
-          <i class="fas fa-moon" id="theme-icon" onclick="toggleTheme()"></i>
-          <i class="fas fa-search"></i>
-          <i class="far fa-user"></i>
-          <a href="cart.html" class="cart-icon">
+          <button class="nav-icon-btn" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle dark mode">
+            <i class="fas fa-moon" id="theme-icon"></i>
+          </button>
+          <button class="nav-icon-btn cart-icon" id="cart-nav-btn" aria-label="View cart" onclick="window.location.href='cart.html'">
             <i class="fas fa-shopping-bag"></i>
             <span class="cart-count" id="cart-count">0</span>
-          </a>
+          </button>
+          <button class="nav-hamburger" aria-label="Open menu" onclick="openDrawer()">
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
     </nav>
 
-    <header class="hero hero-luxury" style="background: url('hero_organic_process_1776785271137.png') no-repeat center center/cover; height: 50vh; min-height: 400px;">
-      <div class="hero-content" style="text-align: left; margin-left: 0;">
-        <h1 style="font-size: 4rem; color: #fff;">The Art of Vedic Making</h1>
-        <p style="color: #fff; opacity: 0.9; max-width: 600px;">Where traditional craftsmanship meets contemporary purity.</p>
+    <!-- Mobile Drawer -->
+    <div class="nav-drawer" id="nav-drawer">
+      <div class="nav-drawer-backdrop" onclick="closeDrawer()"></div>
+      <div class="nav-drawer-panel">
+        <button class="close-btn" onclick="closeDrawer()"><i class="fas fa-times"></i></button>
+        <a href="index.html" onclick="closeDrawer()"><i class="fas fa-home"></i> Home</a>
+        <a href="shop.html" onclick="closeDrawer()"><i class="fas fa-store"></i> The Collection</a>
+        <a href="process.html" onclick="closeDrawer()"><i class="fas fa-leaf"></i> Our Process</a>
+        <a href="heritage.html" onclick="closeDrawer()"><i class="fas fa-landmark"></i> Heritage</a>
+        <a href="concierge.html" onclick="closeDrawer()"><i class="fas fa-concierge-bell"></i> Concierge</a>
+      </div>
+    </div>
+
+    <!-- Slide-out Cart Drawer -->
+    <div class="cart-drawer-backdrop" id="cart-drawer-backdrop" onclick="closeCartDrawer()"></div>
+    <div class="cart-drawer-panel" id="cart-drawer">
+      <div class="cart-drawer-header">
+        <h3><i class="fas fa-shopping-basket"></i> Your Basket</h3>
+        <button class="cart-drawer-close" onclick="closeCartDrawer()" aria-label="Close cart"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="cart-drawer-body" id="cart-drawer-items">
+        <!-- Rendered by JS -->
+      </div>
+      <div class="cart-drawer-footer">
+        <div class="cart-drawer-total">
+          <span>Subtotal</span>
+          <span id="cart-drawer-subtotal">₹0.00</span>
+        </div>
+        <a href="cart.html" class="btn btn-primary">Checkout Safely <i class="fas fa-lock"></i></a>
+      </div>
+    </div>
+
+    <!-- ── HERO ── -->
+    <header class="hero hero-small-hero" style="background: url('hero_organic_process_1776785271137.png') no-repeat center center / cover;">
+      <div class="hero-content">
+        <div class="hero-eyebrow reveal">
+          <i class="fas fa-seedling"></i>
+          Soil to Soul
+        </div>
+        <h1 class="reveal stagger-1">Our Sacred<br>Process</h1>
+        <p class="reveal stagger-2">We honor the earth with zero-chemical cultivation and traditional processing that preserves nature's raw vitality.</p>
       </div>
     </header>
 
+    <!-- ── PROCESS STEPS ── -->
     <section class="section">
       <div class="container">
-        <!-- Bilona Ghee Process -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 120px;">
-          <div style="position: relative;">
-            <img src="assets/cat_oils.png" alt="Bilona Ghee Process" style="width: 100%; border-radius: var(--radius); box-shadow: var(--shadow-lg);" />
-            <div style="position: absolute; top: -20px; left: -20px; background: var(--accent); color: var(--primary); padding: 15px 25px; border-radius: 50px; font-weight: 700; transform: rotate(-5deg);">Traditional Method</div>
+        
+        <!-- Step 1 -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-bottom: 100px;">
+          <div class="reveal reveal-left" style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md);">
+            <img src="assets/category-dryfruits.jpg" alt="Vedic Farming" style="width:100%; height:100%; object-fit:cover; aspect-ratio:4/3;" />
           </div>
-          <div>
-            <h2 style="font-size: 3rem; margin-bottom: 25px;">The Bilona Ghee Journey</h2>
-            <p style="font-size: 1.1rem; margin-bottom: 20px; line-height: 1.8;">
-              Our Ghee is not made; it is nurtured. We follow the ancient Bilona method, where A2 milk is curdled into yogurt, then hand-churned in copper vessels with a wooden churner (madhani).
-            </p>
-            <p style="font-size: 1.1rem; margin-bottom: 20px; line-height: 1.8;">
-              The resulting butter is slow-cooked over a mild fire until it clarifies into the golden essence of wellness. This process preserves the vital MCFAs and fat-soluble vitamins that commercial methods destroy.
-            </p>
-          </div>
-        </div>
-
-        <!-- Sun-Drying Process -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 120px;">
-          <div style="order: 2; position: relative;">
-            <img src="assets/cat_spices.png" alt="Sun Drying" style="width: 100%; border-radius: var(--radius); box-shadow: var(--shadow-lg);" />
-            <div style="position: absolute; top: -20px; right: -20px; background: var(--primary); color: var(--bg-white); padding: 15px 25px; border-radius: 50px; font-weight: 700; transform: rotate(5deg);">Solar Purity</div>
-          </div>
-          <div style="order: 1;">
-            <h2 style="font-size: 3rem; margin-bottom: 25px;">Nature's Dehydration</h2>
-            <p style="font-size: 1.1rem; margin-bottom: 20px; line-height: 1.8;">
-              Modern factories use industrial ovens to flash-dry herbs and fruits. We use the sun. Our amla, saffron, and spices are spread on traditional trays and sun-dried slowly.
-            </p>
-            <p style="font-size: 1.1rem; margin-bottom: 20px; line-height: 1.8;">
-              This natural dehydration preserves the volatile oils and aromatic compounds that give our products their intense flavor and healing properties.
-            </p>
+          <div class="reveal reveal-right">
+            <h5 style="color: var(--secondary); margin-bottom: 10px; font-family: 'Inter', sans-serif; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">Step 01</h5>
+            <h2 style="font-size: 2.5rem; margin-bottom: 24px;">Traditional Vedic Farming</h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 24px;">Our farmers use ancient methods like cow dung manure, neem pesticide, and crop rotation. No synthetic chemicals ever touch our soil.</p>
+            <ul style="color: var(--text-body); list-style: circle; padding-left: 20px; line-height: 2;">
+                <li>Desi cow-based fertilizers (Jivamrutham)</li>
+                <li>Panchagavya for pest management</li>
+                <li>Rain-fed traditional irrigation where possible</li>
+            </ul>
           </div>
         </div>
 
-        <!-- Hand-pounding Grains -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 50px;">
-          <div>
-            <img src="assets/hero_premium.png" alt="Hand Pounding" style="width: 100%; border-radius: var(--radius); box-shadow: var(--shadow-lg);" />
+        <!-- Step 2 -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-bottom: 100px;">
+          <div class="reveal reveal-left" style="order: 2;">
+            <div style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md);">
+                <img src="hero_fresh_organic_vibe_2024_1776786332460.png" alt="Hand Harvest" style="width:100%; height:100%; object-fit:cover; aspect-ratio:4/3;" />
+            </div>
           </div>
-          <div>
-            <h2 style="font-size: 3rem; margin-bottom: 25px;">Preserving the Pulse</h2>
-            <p style="font-size: 1.1rem; margin-bottom: 20px; line-height: 1.8;">
-              Cereals and millets at Shalini Devi Health Products are hand-pounded or stone-ground. Unlike high-speed steel mills that generate heat and strip the grain of its nutritious bran and germ, our method keeps the grain's life intact.
-            </p>
-            <p style="font-size: 1.1rem; margin-bottom: 20px; line-height: 1.8;">
-              Experience the fiber-rich, wholesome texture that was once the secret to the vitality of our ancestors.
-            </p>
+          <div class="reveal reveal-right" style="order: 1;">
+            <h5 style="color: var(--secondary); margin-bottom: 10px; font-family: 'Inter', sans-serif; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">Step 02</h5>
+            <h2 style="font-size: 2.5rem; margin-bottom: 24px;">Conscious Hand-Harvesting</h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 24px;">We believe machines damage the cellular structure of delicate produce. Our crops are hand-harvested at peak maturity by skilled artisans.</p>
           </div>
         </div>
+
+        <!-- Step 3 -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
+          <div class="reveal reveal-left" style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md);">
+            <img src="assets/proc_bilona_ghee_1776697953899.png" alt="Bilona Method" style="width:100%; height:100%; object-fit:cover; aspect-ratio:4/3;" />
+          </div>
+          <div class="reveal reveal-right">
+            <h5 style="color: var(--secondary); margin-bottom: 10px; font-family: 'Inter', sans-serif; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">Step 03</h5>
+            <h2 style="font-size: 2.5rem; margin-bottom: 24px;">Cold-Pressed & Sun-Dried</h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 24px;">Our oils are extracted using traditional wooden Ghani (cold-press) without heat. Spices are shade/sun-dried to lock in essential oils.</p>
+            <a href="shop.html" class="btn btn-primary" style="margin-top: 10px;">Taste the Difference</a>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <section class="features-band" style="background: var(--bg-white); color: var(--primary);">
-       <div class="container">
-         <div style="text-align: center; max-width: 900px; margin: 0 auto;">
-           <h2 style="font-size: 3.5rem; margin-bottom: 30px;">Homemade with Soul</h2>
-           <p style="font-size: 1.3rem; line-height: 1.8; opacity: 0.8; margin-bottom: 40px;">
-             Our Dry Fruit Laddus and homemade spice mixes are crafted in small batches by artisanal homemakers, ensuring the same love and care you'd find in your own mother's kitchen.
-           </p>
-           <a href="shop.html" class="btn">Experience the Craft</a>
-         </div>
-       </div>
-    </section>
-
+    <!-- ── FOOTER ── -->
     <footer>
       <div class="container">
         <div class="footer-grid">
-           <!-- Repeat footer... -->
-           <div class="footer-about">
-            <div class="footer-logo">Shalini Devi</div>
-            <p>Traditional crafts, modern wellness.</p>
+          <div class="footer-brand">
+            <div class="footer-logo-text">Shalini Devi</div>
+            <p>Nature's Tradition. Affordably Yours. Bringing the world's finest organic produce directly to your doorstep.</p>
+            <div class="footer-social">
+              <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+              <a href="#" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
           </div>
-          <div class="footer-bottom">
-             <p>&copy; 2024 Shalini Devi Health Products. All Rights Reserved.</p>
+          <div class="footer-col">
+            <h4>Heritage</h4>
+            <ul>
+              <li><a href="heritage.html">Our Story</a></li>
+              <li><a href="#">Farming Ethics</a></li>
+              <li><a href="#">Certifications</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Concierge</h4>
+            <ul>
+              <li><a href="concierge.html">Contact Us</a></li>
+              <li><a href="#">Shipping</a></li>
+              <li><a href="#">Returns</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+          </div>
+          <div class="newsletter">
+            <h4>Join the Inner Circle</h4>
+            <p>Exclusive access to seasonal harvests and organic insights.</p>
+            <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+              <input type="email" placeholder="your@email.com" required />
+              <button type="submit">Join</button>
+            </form>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 Shalini Devi Health Products. All Rights Reserved.</p>
+          <div class="footer-bottom-links">
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
           </div>
         </div>
       </div>
     </footer>
 
+    <button class="scroll-top" id="scroll-top-btn" onclick="scrollToTop()" aria-label="Scroll to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.js"></script>
     <script src="scripts/cart.js"></script>
+    <script src="scripts/animations.js"></script>
+    <script>
+      function handleNewsletter(e) {
+        e.preventDefault();
+        showToast('Welcome to the Inner Circle! 🌿');
+        e.target.reset();
+      }
+    </script>
   </body>
 </html>

@@ -3,135 +3,183 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Our Heritage | Nature's Gold</title>
+    <meta name="description" content="Read the story of Shalini Devi Health Products. Rooted in traditional Ayurvedic heritage." />
+    <title>Our Heritage | Shalini Devi Health Products</title>
     <link rel="stylesheet" href="css/styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
   </head>
-  <body>
-    <nav>
+  <body class="page-enter">
+
+    <nav id="main-nav">
       <div class="container">
         <a href="index.html" class="logo">
-          <img src="assets/logo.svg" alt="Shalini Devi">
+          <img src="assets/logo.svg" alt="Shalini Devi Health Products" />
         </a>
         <div class="nav-links">
           <a href="index.html">Home</a>
           <a href="shop.html">The Collection</a>
           <a href="process.html">Process</a>
-          <a href="heritage.html">Heritage</a>
+          <a href="heritage.html" class="active">Heritage</a>
           <a href="concierge.html">Concierge</a>
         </div>
         <div class="nav-actions">
-          <i class="fas fa-moon" id="theme-icon" onclick="toggleTheme()"></i>
-          <i class="fas fa-search"></i>
-          <i class="far fa-user"></i>
-          <a href="cart.html" class="cart-icon">
+          <button class="nav-icon-btn" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle dark mode">
+            <i class="fas fa-moon" id="theme-icon"></i>
+          </button>
+          <button class="nav-icon-btn cart-icon" id="cart-nav-btn" aria-label="View cart" onclick="window.location.href='cart.html'">
             <i class="fas fa-shopping-bag"></i>
             <span class="cart-count" id="cart-count">0</span>
-          </a>
+          </button>
+          <button class="nav-hamburger" aria-label="Open menu" onclick="openDrawer()">
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
     </nav>
 
-    <header class="hero hero-luxury" style="background: url('hero_organic_heritage_1776785304129.png') no-repeat center center/cover; height: 50vh; min-height: 400px;">
-      <div class="hero-content" style="text-align: left; margin-left: 0;">
-        <h1 style="font-size: 4rem; color: #fff;">Our Sacred Heritage</h1>
-        <p style="color: #fff; opacity: 0.9; max-width: 600px;">Generations of purity, harvested from the heart of rural Bharat.</p>
+    <!-- Mobile Drawer -->
+    <div class="nav-drawer" id="nav-drawer">
+      <div class="nav-drawer-backdrop" onclick="closeDrawer()"></div>
+      <div class="nav-drawer-panel">
+        <button class="close-btn" onclick="closeDrawer()"><i class="fas fa-times"></i></button>
+        <a href="index.html" onclick="closeDrawer()"><i class="fas fa-home"></i> Home</a>
+        <a href="shop.html" onclick="closeDrawer()"><i class="fas fa-store"></i> The Collection</a>
+        <a href="process.html" onclick="closeDrawer()"><i class="fas fa-leaf"></i> Our Process</a>
+        <a href="heritage.html" onclick="closeDrawer()"><i class="fas fa-landmark"></i> Heritage</a>
+        <a href="concierge.html" onclick="closeDrawer()"><i class="fas fa-concierge-bell"></i> Concierge</a>
+      </div>
+    </div>
+
+    <!-- Slide-out Cart Drawer -->
+    <div class="cart-drawer-backdrop" id="cart-drawer-backdrop" onclick="closeCartDrawer()"></div>
+    <div class="cart-drawer-panel" id="cart-drawer">
+      <div class="cart-drawer-header">
+        <h3><i class="fas fa-shopping-basket"></i> Your Basket</h3>
+        <button class="cart-drawer-close" onclick="closeCartDrawer()" aria-label="Close cart"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="cart-drawer-body" id="cart-drawer-items">
+        <!-- Rendered by JS -->
+      </div>
+      <div class="cart-drawer-footer">
+        <div class="cart-drawer-total">
+          <span>Subtotal</span>
+          <span id="cart-drawer-subtotal">₹0.00</span>
+        </div>
+        <a href="cart.html" class="btn btn-primary">Checkout Safely <i class="fas fa-lock"></i></a>
+      </div>
+    </div>
+
+    <!-- ── HERO ── -->
+    <header class="hero hero-small-hero" style="background: url('hero_organic_heritage_1776785304129.png') no-repeat center center / cover;">
+      <div class="hero-content">
+        <div class="hero-eyebrow reveal">
+          <i class="fas fa-landmark"></i>
+          Generations of Wellness
+        </div>
+        <h1 class="reveal stagger-1">Our Heritage</h1>
+        <p class="reveal stagger-2">Born from ancient wisdom. Nurtured for the modern world. A legacy of uncompromised purity.</p>
       </div>
     </header>
 
-    <section class="section">
-      <div class="container">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 100px;">
-          <div>
-            <h2 style="font-size: 3rem; margin-bottom: 30px;">The Vedic Roots</h2>
-            <p style="font-size: 1.1rem; margin-bottom: 20px; line-height: 1.8;">
-              At Nature's Gold, our story is as ancient as the land itself. We didn't just build a brand; we rediscovered a heritage. Deep in the heart of rural Bharat, we found farmers who still spoke to the soil, who understood the rhythm of the seasons, and who practiced agriculture as a sacred art.
+    <!-- ── CONTENT ── -->
+    <section class="section" style="padding-top: 80px;">
+      <div class="container" style="max-width: 800px; margin: 0 auto;">
+        
+        <div class="reveal" style="margin-bottom: 60px;">
+            <p style="font-size: 1.4rem; font-family: 'Playfair Display', serif; color: var(--primary); line-height: 1.8; text-align: center; margin-bottom: 40px; font-style: italic;">
+                "Food is not mere sustenance; it is the fundamental building block of consciousness."
             </p>
-            <p style="font-size: 1.1rem; margin-bottom: 20px; line-height: 1.8;">
-              Our mission is to bridge the gap between these untouched pockets of traditional wisdom and your modern table. We bring you products that aren't just "organic" by certification, but pure by heritage.
+            <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 24px; color: var(--text-body);">
+                Shalini Devi was built on a simple, yet profound realization: modern processing had stripped our food of its soul. In our quest for convenience, we lost the primal connection between mother earth and our own wellbeing.
             </p>
-          </div>
-          <div>
-            <img src="assets/cat_spices.png" alt="Heritage Spices" style="width: 100%; border-radius: var(--radius); box-shadow: var(--shadow-lg);" />
-          </div>
+            <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 24px; color: var(--text-body);">
+                Decades ago, our founders traveled through the heartlands of India, rediscovering ancient texts of Ayurveda and consulting with generational farmers. They found that true health was inextricably linked to the land. 
+            </p>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 100px;">
-          <div style="order: 2;">
-            <h2 style="font-size: 3rem; margin-bottom: 30px;">Our Ethical Standards</h2>
-            <p style="font-size: 1.1rem; margin-bottom: 20px; line-height: 1.8;">
-              We believe in "Soil-to-Soul" transparency. Every seed sown is non-GMO, every field is nourished with natural compost, and every product is harvested with respect for the environment. Our farmers are our family, and unified we stand for fair trade and sustainable growth.
-            </p>
-            <ul style="list-style: none; margin-top: 20px;">
-              <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-check-circle" style="color: var(--accent);"></i> Zero synthetic pesticides or fertilizers
-              </li>
-              <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-check-circle" style="color: var(--accent);"></i> Traditional heirloom seed preservation
-              </li>
-              <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-check-circle" style="color: var(--accent);"></i> Carbon-neutral farming practices
-              </li>
-            </ul>
-          </div>
-          <div style="order: 1;">
-             <img src="assets/hero_premium.png" alt="Farming" style="width: 100%; border-radius: var(--radius); box-shadow: var(--shadow-lg);" />
-          </div>
+        <div class="reveal" style="margin-top: 60px; border-top: 1px solid var(--border-light); padding-top: 60px;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 30px; text-align: center;">The Commitment</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div style="background: var(--white); padding: 40px; border-radius: var(--radius); border: 1px solid var(--border-light);">
+                    <i class="fas fa-handshake" style="font-size: 2rem; color: var(--secondary); margin-bottom: 20px;"></i>
+                    <h4 style="font-size: 1.2rem; margin-bottom: 12px;">To The Farmers</h4>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Empowering local communities with fair trade practices, ensuring traditional farming is preserved and deeply respected.</p>
+                </div>
+                <div style="background: var(--white); padding: 40px; border-radius: var(--radius); border: 1px solid var(--border-light);">
+                    <i class="fas fa-heartbeat" style="font-size: 2rem; color: var(--secondary); margin-bottom: 20px;"></i>
+                    <h4 style="font-size: 1.2rem; margin-bottom: 12px;">To Your Health</h4>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Providing transparent, laboratory-tested, 100% organic products. No compromises. No hidden additives.</p>
+                </div>
+            </div>
         </div>
 
-        <div style="text-align: center; max-width: 800px; margin: 0 auto;">
-          <h2 style="font-size: 3rem; margin-bottom: 30px;">A Promise of Purity</h2>
-          <p style="font-size: 1.2rem; line-height: 1.8; opacity: 0.8;">
-            From the hand-picked saffron of Kashmir to the cold-pressed oils of the South, Nature's Gold is more than an e-commerce store. It is a journey back to the roots of health, where every bite is a blessing from the earth.
-          </p>
-        </div>
       </div>
     </section>
 
-    <section class="features-band">
-      <div class="container">
-        <div class="features-grid">
-          <div class="feature-item">
-            <i class="fas fa-sun"></i>
-            <h4>Sun-Dried</h4>
-            <p>Naturally processed for maximum nutrient retention</p>
-          </div>
-          <div class="feature-item">
-            <i class="fas fa-mountain"></i>
-            <h4>Ethical Sourcing</h4>
-            <p>Supporting small-scale artisanal farmers</p>
-          </div>
-          <div class="feature-item">
-            <i class="fas fa-droplet"></i>
-            <h4>Pure & Raw</h4>
-            <p>No additives, preservatives, or artificial colors</p>
-          </div>
-          <div class="feature-item">
-            <i class="fas fa-handshake"></i>
-            <h4>Fair Trade</h4>
-            <p>Ensuring prosperity for our farming communities</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
+    <!-- ── FOOTER ── -->
     <footer>
       <div class="container">
         <div class="footer-grid">
-          <div class="footer-about">
-            <div class="footer-logo">Shalini Devi</div>
+          <div class="footer-brand">
+            <div class="footer-logo-text">Shalini Devi</div>
             <p>Nature's Tradition. Affordably Yours. Bringing the world's finest organic produce directly to your doorstep.</p>
+            <div class="footer-social">
+              <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+              <a href="#" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
           </div>
-          <div class="footer-bottom">
-             <p>&copy; 2024 Shalini Devi Health Products. All Rights Reserved.</p>
+          <div class="footer-col">
+            <h4>Heritage</h4>
+            <ul>
+              <li><a href="heritage.html">Our Story</a></li>
+              <li><a href="#">Farming Ethics</a></li>
+              <li><a href="#">Certifications</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Concierge</h4>
+            <ul>
+              <li><a href="concierge.html">Contact Us</a></li>
+              <li><a href="#">Shipping</a></li>
+              <li><a href="#">Returns</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+          </div>
+          <div class="newsletter">
+            <h4>Join the Inner Circle</h4>
+            <p>Exclusive access to seasonal harvests and organic insights.</p>
+            <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+              <input type="email" placeholder="your@email.com" required />
+              <button type="submit">Join</button>
+            </form>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 Shalini Devi Health Products. All Rights Reserved.</p>
+          <div class="footer-bottom-links">
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
           </div>
         </div>
       </div>
     </footer>
 
+    <button class="scroll-top" id="scroll-top-btn" onclick="scrollToTop()" aria-label="Scroll to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.js"></script>
     <script src="scripts/cart.js"></script>
+    <script src="scripts/animations.js"></script>
+    <script>
+      function handleNewsletter(e) {
+        e.preventDefault();
+        showToast('Welcome to the Inner Circle! 🌿');
+        e.target.reset();
+      }
+    </script>
   </body>
 </html>

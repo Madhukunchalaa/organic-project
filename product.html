@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Product details — Shalini Devi Health Products" id="page-meta-desc" />
+    <title>Product | Shalini Devi Health Products</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+    <style>
+      .product-page-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+        align-items: start;
+        padding: 60px 0 80px;
+      }
+      @media (max-width: 768px) {
+        .product-page-grid { grid-template-columns: 1fr; gap: 36px; }
+      }
+      .product-page-img {
+        position: sticky;
+        top: 100px;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+        aspect-ratio: 1;
+      }
+      .product-page-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .product-page-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--secondary);
+        margin-bottom: 14px;
+      }
+      .product-page-title {
+        font-size: 2.4rem;
+        line-height: 1.2;
+        margin-bottom: 12px;
+      }
+      .product-page-rating {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 28px;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+      }
+      .product-page-rating .stars { color: #f5a623; font-size: 1rem; }
+      .product-page-price {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 28px;
+      }
+      .product-page-section {
+        border-top: 1px solid var(--border-light);
+        padding-top: 24px;
+        margin-top: 24px;
+      }
+      .product-page-section h4 {
+        font-size: 0.82rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .ingredients-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .ingredient-tag {
+        background: rgba(172,197,85,0.15);
+        color: var(--primary);
+        border: 1px solid rgba(172,197,85,0.35);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+      .nutrition-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.88rem;
+      }
+      .nutrition-table tr { border-bottom: 1px solid var(--border-light); }
+      .nutrition-table tr:last-child { border-bottom: none; }
+      .nutrition-table td { padding: 8px 4px; }
+      .nutrition-table td:last-child { text-align: right; font-weight: 600; color: var(--primary); }
+      .product-page-add-btn {
+        width: 100%;
+        padding: 16px 28px;
+        font-size: 1.05rem;
+        justify-content: center;
+        margin-top: 28px;
+      }
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.88rem;
+        color: var(--text-muted);
+        text-decoration: none;
+        margin-bottom: 8px;
+        transition: color 0.2s;
+      }
+      .back-link:hover { color: var(--primary); }
+      .product-page-stepper {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-top: 28px;
+        border: 2px solid var(--primary);
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+      .product-page-stepper button {
+        flex: 0 0 52px;
+        height: 52px;
+        background: none;
+        border: none;
+        font-size: 1.4rem;
+        cursor: pointer;
+        color: var(--primary);
+        transition: background 0.2s;
+      }
+      .product-page-stepper button:hover { background: rgba(68,81,49,0.08); }
+      .product-page-stepper .qty-val {
+        flex: 1;
+        text-align: center;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: var(--primary);
+      }
+    </style>
+  </head>
+  <body class="page-enter">
+
+    <!-- ── NAVBAR ── -->
+    <nav id="main-nav">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <img src="assets/logo.svg" alt="Shalini Devi Health Products" />
+        </a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="shop.html">The Collection</a>
+          <a href="process.html">Process</a>
+          <a href="heritage.html">Heritage</a>
+          <a href="concierge.html">Concierge</a>
+        </div>
+        <div class="nav-actions">
+          <button class="nav-icon-btn" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle dark mode">
+            <i class="fas fa-moon" id="theme-icon"></i>
+          </button>
+          <button class="nav-icon-btn cart-icon" id="cart-nav-btn" aria-label="View cart" onclick="window.location.href='cart.html'">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count" id="cart-count">0</span>
+          </button>
+          <button class="nav-hamburger" aria-label="Open menu" onclick="openDrawer()">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Drawer -->
+    <div class="nav-drawer" id="nav-drawer">
+      <div class="nav-drawer-backdrop" onclick="closeDrawer()"></div>
+      <div class="nav-drawer-panel">
+        <button class="close-btn" onclick="closeDrawer()"><i class="fas fa-times"></i></button>
+        <a href="index.html" onclick="closeDrawer()"><i class="fas fa-home"></i> Home</a>
+        <a href="shop.html" onclick="closeDrawer()"><i class="fas fa-store"></i> The Collection</a>
+        <a href="process.html" onclick="closeDrawer()"><i class="fas fa-leaf"></i> Our Process</a>
+        <a href="heritage.html" onclick="closeDrawer()"><i class="fas fa-landmark"></i> Heritage</a>
+        <a href="concierge.html" onclick="closeDrawer()"><i class="fas fa-concierge-bell"></i> Concierge</a>
+      </div>
+    </div>
+
+    <!-- Slide-out Cart Drawer -->
+    <div class="cart-drawer-backdrop" id="cart-drawer-backdrop" onclick="closeCartDrawer()"></div>
+    <div class="cart-drawer-panel" id="cart-drawer">
+      <div class="cart-drawer-header">
+        <h3><i class="fas fa-shopping-basket"></i> Your Basket</h3>
+        <button class="cart-drawer-close" onclick="closeCartDrawer()" aria-label="Close cart"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="cart-drawer-body" id="cart-drawer-items"></div>
+      <div class="cart-drawer-footer">
+        <div class="cart-drawer-total">
+          <span>Subtotal</span>
+          <span id="cart-drawer-subtotal">₹0.00</span>
+        </div>
+        <a href="cart.html" class="btn btn-primary">Checkout Safely <i class="fas fa-lock"></i></a>
+      </div>
+    </div>
+
+    <!-- ── PRODUCT DETAIL ── -->
+    <section class="section" style="padding-top: 32px;">
+      <div class="container">
+        <a href="javascript:history.back()" class="back-link">
+          <i class="fas fa-arrow-left"></i> Back to Collection
+        </a>
+
+        <div class="product-page-grid" id="product-page-content">
+          <!-- Rendered by JS -->
+          <div style="grid-column:1/-1; text-align:center; padding:80px 0; opacity:0.4;">
+            <i class="fas fa-spinner fa-spin" style="font-size:2rem;"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="footer-logo-text">Shalini Devi</div>
+            <p>Nature's Tradition. Affordably Yours.</p>
+            <div class="footer-social">
+              <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h4>Shop</h4>
+            <ul>
+              <li><a href="shop.html">All Products</a></li>
+              <li><a href="shop.html?cat=Seeds">Seeds</a></li>
+              <li><a href="shop.html?cat=Powders">Powders</a></li>
+              <li><a href="shop.html?cat=Dry Fruits">Dry Fruits</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Concierge</h4>
+            <ul>
+              <li><a href="concierge.html">Contact Us</a></li>
+              <li><a href="#">Shipping Policy</a></li>
+              <li><a href="#">Returns</a></li>
+            </ul>
+          </div>
+          <div class="newsletter">
+            <h4>Join the Inner Circle</h4>
+            <p>Exclusive access to seasonal harvests and wellness insights.</p>
+            <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Welcome to the Inner Circle! 🌿')">
+              <input type="email" placeholder="your@email.com" required />
+              <button type="submit">Join</button>
+            </form>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 Shalini Devi Health Products. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="scripts/products.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.js"></script>
+    <script src="scripts/cart.js"></script>
+    <script src="scripts/animations.js"></script>
+    <script>
+      // ── State ──
+      let currentProductId = null;
+      let selectedWeight   = null;
+      let selectedPrice    = null;
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const params  = new URLSearchParams(window.location.search);
+        const id      = parseInt(params.get('id'));
+        const product = PRODUCTS.find(p => p.id === id);
+
+        if (!product) { window.location.href = 'shop.html'; return; }
+
+        currentProductId = product.id;
+
+        // Update page meta
+        document.title = `${product.name} | Shalini Devi Health Products`;
+        document.getElementById('page-meta-desc').content = `${product.name} — ${product.category}. Premium organic from Shalini Devi.`;
+
+        renderProduct(product);
+        updateCartUI();
+
+        // Apply saved theme
+        const saved = localStorage.getItem('theme-ShaliniDevi');
+        if (saved === 'dark') {
+          document.body.classList.add('dark');
+          const icon = document.getElementById('theme-icon');
+          if (icon) icon.className = 'fas fa-sun';
+        }
+      });
+
+      function renderProduct(product) {
+        const noWeightCategories = ['Combos', 'Wellness'];
+        const usesWeights = !noWeightCategories.includes(product.category);
+
+        const weightChips = usesWeights ? WEIGHT_VARIANTS.map(v => {
+          const price = Math.round(product.priceNumeric * v.multiplier);
+          return `<button class="weight-chip" data-weight="${v.label}" data-price="${price}"
+                    onclick="selectPageWeight(this)">${v.label}</button>`;
+        }).join('') : '';
+
+        const ingredientTags = (product.ingredients || []).map(i =>
+          `<span class="ingredient-tag">${i}</span>`).join('');
+
+        const nutritionRows = Object.entries(product.nutrition || {}).map(([k, v]) =>
+          `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+
+        const initialPrice = usesWeights
+          ? `From ₹${product.priceNumeric.toLocaleString('en-IN')}`
+          : `₹${product.priceNumeric.toLocaleString('en-IN')}`;
+
+        const stars = Math.floor(Math.random() * 20) + 60;
+
+        document.getElementById('product-page-content').innerHTML = `
+          <div class="product-page-img reveal">
+            <img src="${product.img}" alt="${product.name}" id="main-product-img" />
+          </div>
+
+          <div class="reveal stagger-2">
+            <div class="product-page-eyebrow">
+              <i class="fas fa-leaf"></i> ${product.category}
+            </div>
+            <h1 class="product-page-title">${product.name}</h1>
+            <div class="product-page-rating">
+              <span class="stars">★★★★★</span>
+              <span>(${stars} verified reviews)</span>
+            </div>
+            <div class="product-page-price" id="page-price-display">${initialPrice}</div>
+
+            ${usesWeights ? `
+            <div class="product-page-section">
+              <h4><i class="fas fa-weight-hanging"></i> Select Weight</h4>
+              <div class="weight-selector" id="page-weight-selector">${weightChips}</div>
+              <p class="weight-error" id="page-weight-error" style="display:none; color:#c0714f; font-size:0.85rem; margin-top:8px;">
+                <i class="fas fa-exclamation-circle"></i> Please select a weight to continue
+              </p>
+            </div>` : ''}
+
+            <div id="page-action-area">
+              <button class="btn btn-primary product-page-add-btn" onclick="handlePageAdd(${product.id}, '${product.name.replace(/'/g,"\\'")}', '${product.img}')">
+                <i class="fas fa-shopping-basket"></i> Add to Basket
+              </button>
+            </div>
+
+            <div class="trust-badges" style="margin-top:20px; flex-direction:column; gap:8px; display:flex;">
+              <div class="trust-badge"><i class="fas fa-lock"></i> Secure Checkout</div>
+              <div class="trust-badge"><i class="fas fa-undo"></i> 7-Day Freshness Guarantee</div>
+              <div class="trust-badge"><i class="fas fa-leaf"></i> 100% Organic Certified</div>
+            </div>
+
+            ${ingredientTags ? `
+            <div class="product-page-section">
+              <h4><i class="fas fa-mortar-pestle"></i> Pure Ingredients</h4>
+              <div class="ingredients-list">${ingredientTags}</div>
+            </div>` : ''}
+
+            ${nutritionRows ? `
+            <div class="product-page-section">
+              <h4><i class="fas fa-chart-bar"></i> Nutritional Info <small style="font-weight:400;">(per 100g)</small></h4>
+              <table class="nutrition-table"><tbody>${nutritionRows}</tbody></table>
+            </div>` : ''}
+          </div>
+        `;
+
+        // Trigger scroll reveal
+        if (typeof revealObserver !== 'undefined') {
+          document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        }
+
+        // Restore selection if already in cart
+        updatePageActions(product.id);
+      }
+
+      function selectPageWeight(btn) {
+        document.querySelectorAll('#page-weight-selector .weight-chip').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        selectedWeight = btn.dataset.weight;
+        selectedPrice  = parseInt(btn.dataset.price);
+
+        document.getElementById('page-price-display').textContent =
+          `₹${selectedPrice.toLocaleString('en-IN')}.00`;
+
+        const err = document.getElementById('page-weight-error');
+        if (err) err.style.display = 'none';
+
+        updatePageActions(currentProductId);
+      }
+
+      function handlePageAdd(productId, name, img) {
+        const product = PRODUCTS.find(p => p.id === productId);
+        const noWeightCategories = ['Combos', 'Wellness'];
+        const usesWeights = !noWeightCategories.includes(product.category);
+
+        if (usesWeights && !selectedWeight) {
+          const err = document.getElementById('page-weight-error');
+          if (err) err.style.display = 'block';
+          document.getElementById('page-weight-selector').classList.add('shake');
+          setTimeout(() => document.getElementById('page-weight-selector').classList.remove('shake'), 500);
+          return;
+        }
+
+        const weight = selectedWeight || 'Standard';
+        const price  = selectedPrice  || product.priceNumeric;
+        const variantId = `${productId}-${weight}`;
+
+        addVariantToCart({ id: productId, variantId, name: `${name} (${weight})`, price, img, weightLabel: weight });
+        updatePageActions(productId);
+      }
+
+      function pageStepperUpdate(productId, weight, delta) {
+        const variantId = `${productId}-${weight}`;
+        updateVariantQuantity(variantId, delta);
+        updatePageActions(productId);
+      }
+
+      function updatePageActions(productId) {
+        const area = document.getElementById('page-action-area');
+        if (!area) return;
+
+        const product = PRODUCTS.find(p => p.id === productId);
+        if (!product) return;
+
+        const noWeightCategories = ['Combos', 'Wellness'];
+        const usesWeights = !noWeightCategories.includes(product.category);
+        const weight = usesWeights ? selectedWeight : 'Standard';
+
+        if (!weight) {
+          // No weight selected yet — show plain Add button
+          area.innerHTML = `
+            <button class="btn btn-primary product-page-add-btn" onclick="handlePageAdd(${productId}, '${product.name.replace(/'/g,"\\'")}', '${product.img}')">
+              <i class="fas fa-shopping-basket"></i> Add to Basket
+            </button>`;
+          return;
+        }
+
+        const variantId = `${productId}-${weight}`;
+        const cartItem  = cart.find(i => i.variantId === variantId);
+
+        if (cartItem && cartItem.quantity > 0) {
+          area.innerHTML = `
+            <div class="product-page-stepper">
+              <button onclick="pageStepperUpdate(${productId}, '${weight}', -1)" aria-label="Decrease">−</button>
+              <div class="qty-val">${cartItem.quantity}</div>
+              <button onclick="pageStepperUpdate(${productId}, '${weight}', 1)" aria-label="Increase">+</button>
+            </div>`;
+        } else {
+          area.innerHTML = `
+            <button class="btn btn-primary product-page-add-btn" onclick="handlePageAdd(${productId}, '${product.name.replace(/'/g,"\\'")}', '${product.img}')">
+              <i class="fas fa-shopping-basket"></i> Add to Basket
+            </button>`;
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,71 +1,89 @@
-/**
- * Shop Logic for Nature's Gold
- * Handles dynamic rendering, searching, and filtering
- */
-
-function renderProducts(items) {
+document.addEventListener('DOMContentLoaded', () => {
     const productsGrid = document.getElementById('shop-products');
-    if (!productsGrid) return;
-
-    if (items.length === 0) {
-        productsGrid.innerHTML = `
-            <div style="grid-column: 1/-1; text-align: center; padding: 60px; opacity: 0.6;">
-                <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 20px;"></i>
-                <p>No products found matching your criteria.</p>
-            </div>
-        `;
-        return;
-    }
-
-    productsGrid.innerHTML = items.map(product => `
-        <div class="product-card">
-            ${product.category === 'Laddus' || product.category === 'Pickles' ? '<span class="product-badge">Homemade</span>' : ''}
-            ${product.id <= 5 ? '<span class="product-badge">Top Quality</span>' : ''}
-            <div class="product-image-container">
-                <img src="${product.img}" alt="${product.name}" class="product-img" loading="lazy" />
-            </div>
-            <div class="product-info">
-                <h3>${product.name}</h3>
-                <p style="opacity: 0.6; font-size: 0.85rem; margin-bottom: 10px;">${product.category}</p>
-                <div class="product-meta">
-                    <span class="price">${product.priceRange}</span>
-                    <button class="add-btn" onclick="addToCart({id: ${product.id}, name: '${product.name.replace(/'/g, "\\'")}', price: ${product.priceNumeric}, img: '${product.img}'}, this)">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    `).join('');
-}
-
-function initShop() {
     const searchInput = document.getElementById('product-search');
     const categoryFilter = document.getElementById('category-filter');
+    const sortFilter = document.getElementById('sort-filter');
+    const resultsCount = document.getElementById('results-count');
+    const noResults = document.getElementById('no-results');
 
-    // Extract unique categories for filter
-    const categories = ['All Categories', ...new Set(PRODUCTS.map(p => p.category))];
-    if (categoryFilter) {
-        categoryFilter.innerHTML = categories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+    if (!productsGrid || typeof PRODUCTS === 'undefined') return;
+
+    // Populate Categories Dynamically
+    const categories = [...new Set(PRODUCTS.map(p => p.category))].sort();
+    categories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        categoryFilter.appendChild(option);
+    });
+
+    // Check URL for category filter
+    const urlParams = new URLSearchParams(window.location.search);
+    const catParam = urlParams.get('cat');
+    if (catParam && categories.includes(catParam)) {
+        categoryFilter.value = catParam;
     }
 
-    function filterAndSearch() {
-        const query = searchInput ? searchInput.value.toLowerCase() : '';
-        const category = categoryFilter ? categoryFilter.value : 'All Categories';
+    // Render Products
+    function renderProducts(productList) {
+        if (productList.length === 0) {
+            productsGrid.style.display = 'none';
+            noResults.style.display = 'block';
+            resultsCount.textContent = `0 items`;
+            return;
+        }
 
-        const filtered = PRODUCTS.filter(p => {
-            const matchesSearch = p.name.toLowerCase().includes(query);
-            const matchesCategory = category === 'All Categories' || p.category === category;
-            return matchesSearch && matchesCategory;
+        productsGrid.style.display = 'grid';
+        noResults.style.display = 'none';
+        resultsCount.textContent = `${productList.length} item${productList.length > 1 ? 's' : ''}`;
+
+        productsGrid.innerHTML = productList.map((product, i) => generateCardHTML(product, i)).join('');
+        
+        setTimeout(() => updateAllCardActions(), 50);
+
+        // Trigger reveal observer for new items
+        if (typeof revealObserver !== 'undefined') {
+            document.querySelectorAll('#shop-products .reveal').forEach(el => revealObserver.observe(el));
+        }
+    }
+
+    // Filter Logic
+    function filterProducts() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedCat = categoryFilter.value;
+        const selectedSort = sortFilter.value;
+
+        let filtered = PRODUCTS.filter(p => {
+            const matchesSearch = p.name.toLowerCase().includes(searchTerm) || p.category.toLowerCase().includes(searchTerm);
+            const matchesCat = selectedCat === 'All Categories' || p.category === selectedCat;
+            return matchesSearch && matchesCat;
         });
+
+        // Sort Logic
+        if (selectedSort === 'price-asc') {
+            filtered.sort((a,b) => a.priceNumeric - b.priceNumeric);
+        } else if (selectedSort === 'price-desc') {
+            filtered.sort((a,b) => b.priceNumeric - a.priceNumeric);
+        } else if (selectedSort === 'name-asc') {
+            filtered.sort((a,b) => a.name.localeCompare(b.name));
+        }
+        // Default is to show according to original array (featured)
 
         renderProducts(filtered);
     }
 
-    if (searchInput) searchInput.addEventListener('input', filterAndSearch);
-    if (categoryFilter) categoryFilter.addEventListener('change', filterAndSearch);
+    // Event Listeners
+    searchInput.addEventListener('input', filterProducts);
+    categoryFilter.addEventListener('change', filterProducts);
+    sortFilter.addEventListener('change', filterProducts);
 
-    // Initial render
-    renderProducts(PRODUCTS);
+    // Initial Render
+    filterProducts();
+});
+
+function toggleWishlist(btn) {
+    btn.classList.toggle('active');
+    const icon = btn.querySelector('i');
+    icon.className = btn.classList.contains('active') ? 'fas fa-heart' : 'far fa-heart';
+    showToast(btn.classList.contains('active') ? 'Added to wishlist ❤️' : 'Removed from wishlist');
 }
-
-document.addEventListener('DOMContentLoaded', initShop);
