@@ -25,15 +25,27 @@
         </div>
         <div class="nav-actions">
           <i class="fas fa-moon" id="theme-icon" onclick="toggleTheme()"></i>
-          <i class="fas fa-search"></i>
           <i class="far fa-user"></i>
           <a href="cart.html" class="cart-icon">
             <i class="fas fa-shopping-bag"></i>
             <span class="cart-count" id="cart-count">0</span>
           </a>
+          <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    <div class="mobile-menu-drawer" id="mobileMenuDrawer">
+      <a href="index.html">Home</a>
+      <a href="shop.html">The Collection</a>
+      <a href="process.html">Process</a>
+      <a href="heritage.html">Heritage</a>
+      <a href="concierge.html">Concierge</a>
+    </div>
 
     <header class="hero hero-luxury" style="background: url('hero_organic_process_1776785271137.png') no-repeat center center/cover; height: 50vh; min-height: 400px;">
       <div class="hero-content" style="text-align: left; margin-left: 0;">
@@ -45,7 +57,7 @@
     <section class="section">
       <div class="container">
         <!-- Bilona Ghee Process -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 120px;">
+        <div class="content-grid" style="margin-bottom: 120px;">
           <div style="position: relative;">
             <img src="assets/cat_oils.png" alt="Bilona Ghee Process" style="width: 100%; border-radius: var(--radius); box-shadow: var(--shadow-lg);" />
             <div style="position: absolute; top: -20px; left: -20px; background: var(--accent); color: var(--primary); padding: 15px 25px; border-radius: 50px; font-weight: 700; transform: rotate(-5deg);">Traditional Method</div>
@@ -62,12 +74,12 @@
         </div>
 
         <!-- Sun-Drying Process -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 120px;">
-          <div style="order: 2; position: relative;">
+        <div class="content-grid" style="margin-bottom: 120px;">
+          <div class="order-2-desktop" style="order: 2; position: relative;">
             <img src="assets/cat_spices.png" alt="Sun Drying" style="width: 100%; border-radius: var(--radius); box-shadow: var(--shadow-lg);" />
             <div style="position: absolute; top: -20px; right: -20px; background: var(--primary); color: var(--bg-white); padding: 15px 25px; border-radius: 50px; font-weight: 700; transform: rotate(5deg);">Solar Purity</div>
           </div>
-          <div style="order: 1;">
+          <div class="order-1-desktop" style="order: 1;">
             <h2 style="font-size: 3rem; margin-bottom: 25px;">Nature's Dehydration</h2>
             <p style="font-size: 1.1rem; margin-bottom: 20px; line-height: 1.8;">
               Modern factories use industrial ovens to flash-dry herbs and fruits. We use the sun. Our amla, saffron, and spices are spread on traditional trays and sun-dried slowly.
@@ -79,7 +91,7 @@
         </div>
 
         <!-- Hand-pounding Grains -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 50px;">
+        <div class="content-grid" style="margin-bottom: 50px;">
           <div>
             <img src="assets/hero_premium.png" alt="Hand Pounding" style="width: 100%; border-radius: var(--radius); box-shadow: var(--shadow-lg);" />
           </div>
@@ -151,5 +163,6 @@
     </footer>
 
     <script src="scripts/cart.js"></script>
+    <script src="scripts/hamburger.js"></script>
   </body>
 </html>

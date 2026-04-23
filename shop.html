@@ -25,15 +25,27 @@
         </div>
         <div class="nav-actions">
           <i class="fas fa-moon" id="theme-icon" onclick="toggleTheme()"></i>
-          <i class="fas fa-search"></i>
           <i class="far fa-user"></i>
           <a href="cart.html" class="cart-icon">
             <i class="fas fa-shopping-bag"></i>
             <span class="cart-count" id="cart-count">0</span>
           </a>
+          <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    <div class="mobile-menu-drawer" id="mobileMenuDrawer">
+      <a href="index.html">Home</a>
+      <a href="shop.html">The Collection</a>
+      <a href="process.html">Process</a>
+      <a href="heritage.html">Heritage</a>
+      <a href="concierge.html">Concierge</a>
+    </div>
 
     <header class="hero hero-luxury" style="background: url('hero_organic_shop_1776785239046.png') no-repeat center center/cover; height: 50vh; min-height: 400px;">
       <div class="hero-content" style="text-align: left; margin-left: 0;">
@@ -113,5 +125,6 @@
     <script src="scripts/cardFeatures.js"></script>
     <script src="scripts/shop.js"></script>
     <script src="scripts/animations.js"></script>
+    <script src="scripts/hamburger.js"></script>
   </body>
 </html>

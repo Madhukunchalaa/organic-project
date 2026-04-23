@@ -539,6 +539,20 @@ body.dark .product-card {
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
+body.dark .product-badge {
+  color: var(--primary);
+}
+
+.product-badge--premium {
+  background: var(--primary);
+  color: var(--bg-white);
+}
+
+body.dark .product-badge--premium {
+  background: var(--accent);
+  color: #1A1F13;
+}
+
 .product-image-container {
   height: 250px;
   overflow: hidden;
@@ -1131,6 +1145,11 @@ footer {
   transition: transform 0.3s ease;
 }
 
+body.dark .image-overlay span {
+  background: var(--bg-white);
+  color: var(--accent);
+}
+
 .product-card:hover .image-overlay { opacity: 1; }
 .product-card:hover .image-overlay span { transform: translateY(0); }
 
@@ -1260,6 +1279,16 @@ footer {
 .stepper-btn:hover {
   background: var(--primary);
   color: white;
+}
+
+body.dark .premium-cart-item .stepper-btn {
+  background: var(--bg-main);
+  color: var(--text-dark);
+}
+
+body.dark .premium-cart-item .stepper-btn:hover {
+  background: var(--accent);
+  color: #1A1F13;
 }
 
 .stepper-qty {
@@ -1833,8 +1862,122 @@ body.dark .btn-add-unique {
   .footer-grid { grid-template-columns: 1fr !important; text-align: center; gap: 40px; }
 }
 
-/* --- Mobile Bottom Navigation Bar & Category Fix --- */
+/* --- Hamburger Button --- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.hamburger:hover {
+  background: var(--bg-main);
+}
+
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text-dark);
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+body.dark .hamburger span {
+  background: var(--text-dark);
+}
+
+/* --- Mobile Menu Drawer --- */
+.mobile-menu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1500;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+  display: block;
+  opacity: 1;
+}
+
+.mobile-menu-drawer {
+  position: fixed;
+  top: 0;
+  right: -280px;
+  width: 280px;
+  height: 100%;
+  background: var(--bg-white);
+  z-index: 1600;
+  padding: 80px 30px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
+  transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+
+.mobile-menu-drawer.open {
+  right: 0;
+}
+
+.mobile-menu-drawer a {
+  display: block;
+  padding: 14px 16px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  border-radius: 10px;
+  transition: background 0.2s ease, color 0.2s ease;
+  letter-spacing: 0.02em;
+}
+
+.mobile-menu-drawer a:hover,
+.mobile-menu-drawer a.active {
+  background: var(--bg-main);
+  color: var(--primary);
+}
+
+body.dark .mobile-menu-drawer {
+  background: var(--bg-white);
+}
+
+body.dark .mobile-menu-drawer a:hover,
+body.dark .mobile-menu-drawer a.active {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--accent);
+}
+
+/* --- Mobile Category & General Fix --- */
 @media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
   /* Fix Categories Slider */
   .categories-slider {
     grid-template-columns: 1fr !important;
@@ -1842,62 +1985,107 @@ body.dark .btn-add-unique {
   .category-card {
     height: 350px !important;
   }
+}
 
-  /* Create App-Like Bottom Tab Bar from existing nav-links */
-  .nav-links {
-    display: flex !important;
-    position: fixed !important;
-    bottom: 0 !important;
-    top: auto !important;
-    left: 0 !important;
-    width: 100% !important;
-    background: rgba(255, 255, 255, 0.95) !important;
-    backdrop-filter: blur(15px) !important;
-    border-top: 1px solid rgba(0,0,0,0.05) !important;
-    z-index: 2000 !important;
-    padding: 10px 0 15px 0 !important;
-    justify-content: space-around !important;
-    align-items: center !important;
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.05) !important;
-    margin: 0 !important;
-    flex-direction: row !important;
+/* --- Page Content Responsive Grids (process, heritage, concierge) --- */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  margin-bottom: 100px;
+}
+
+.content-grid-sm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+}
+
+.badge-tag {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  background: var(--accent);
+  color: var(--primary);
+  padding: 15px 25px;
+  border-radius: 50px;
+  font-weight: 700;
+  transform: rotate(-5deg);
+}
+
+.badge-tag-right {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  background: var(--primary);
+  color: var(--bg-white);
+  padding: 15px 25px;
+  border-radius: 50px;
+  font-weight: 700;
+  transform: rotate(5deg);
+}
+
+.hero-content-left {
+  text-align: left;
+  margin-left: 0;
+}
+
+@media (max-width: 768px) {
+  .content-grid,
+  .content-grid-sm {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+    margin-bottom: 60px !important;
   }
 
-  body.dark .nav-links {
-    background: rgba(26, 31, 19, 0.95) !important;
-    border-top: 1px solid rgba(255,255,255,0.05) !important;
+  /* Reset order overrides on mobile so image always comes first */
+  .order-2-desktop { order: unset !important; }
+  .order-1-desktop { order: unset !important; }
+
+  /* Reset order overrides on mobile */
+  .content-grid > [style*="order: 2"],
+  .content-grid > div[style*="order:2"] {
+    order: unset !important;
   }
 
-  .nav-links a {
-    font-size: 0.65rem !important;
-    font-weight: 700 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 5px !important;
-    color: var(--text-muted) !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-    margin: 0 !important;
-  }
-  
-  .nav-links a:hover, .nav-links a.active {
-    color: var(--primary) !important;
-  }
-  
-  body.dark .nav-links a:hover, body.dark .nav-links a.active {
-    color: var(--text-dark) !important;
+  .content-grid > [style*="order: 1"],
+  .content-grid > div[style*="order:1"] {
+    order: unset !important;
   }
 
-  /* Inject Icons via CSS */
-  .nav-links a:nth-child(1)::before { content: "\f015"; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 1.4rem; } 
-  .nav-links a:nth-child(2)::before { content: "\f06b"; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 1.4rem; } 
-  .nav-links a:nth-child(3)::before { content: "\f4d8"; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 1.4rem; } 
-  .nav-links a:nth-child(4)::before { content: "\f19c"; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 1.4rem; } 
-  .nav-links a:nth-child(5)::before { content: "\f0e0"; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 1.4rem; } 
+  .badge-tag {
+    top: -10px;
+    left: -5px;
+    padding: 10px 16px;
+    font-size: 0.8rem;
+  }
 
-  /* Prevent content from being hidden behind bottom bar */
-  body {
-    padding-bottom: 80px !important;
+  .badge-tag-right {
+    top: -10px;
+    right: -5px;
+    padding: 10px 16px;
+    font-size: 0.8rem;
+  }
+
+  /* Hero headings on these pages */
+  .hero-content h1 {
+    font-size: 2.4rem !important;
+  }
+
+  /* Section headings */
+  .content-grid h2,
+  .content-grid-sm h2 {
+    font-size: 2rem !important;
+  }
+
+  /* Concierge contact card padding */
+  .concierge-card {
+    padding: 25px !important;
+  }
+
+  /* Features band on heritage */
+  .features-band .features-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 }
