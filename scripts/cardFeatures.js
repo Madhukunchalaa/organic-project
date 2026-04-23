@@ -35,7 +35,7 @@ function generateCardHTML(product, i) {
     return `    <div class="product-card reveal" id="product-card-${product.id}">
       <div class="product-badge-group">
         ${product.category === 'Laddus' || product.category === 'Pickles' ? '<span class="product-badge">Homemade</span>' : ''}
-        ${product.id <= 5 ? '<span class="product-badge" style="background: var(--primary); color: white;">Premium</span>' : ''}
+        ${product.id <= 5 ? '<span class="product-badge product-badge--premium">Premium</span>' : ''}
       </div>
       <div class="product-image-container" onclick="openProductModal(${product.id})">
         <img src="${product.img}" alt="${product.name}" class="product-img" loading="lazy" />
