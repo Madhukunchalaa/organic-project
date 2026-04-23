@@ -31,9 +31,22 @@
             <i class="fas fa-shopping-bag"></i>
             <span class="cart-count" id="cart-count">0</span>
           </a>
+          <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    <div class="mobile-menu-drawer" id="mobileMenuDrawer">
+      <a href="index.html">Home</a>
+      <a href="shop.html">The Collection</a>
+      <a href="process.html">Process</a>
+      <a href="heritage.html">Heritage</a>
+      <a href="concierge.html">Concierge</a>
+    </div>
 
     <header class="hero hero-luxury" style="background: url('assets/premium_hero.png') no-repeat center center/cover;">
       <div class="hero-overlay"></div>
@@ -228,6 +241,7 @@
     <script src="scripts/cart.js"></script>
     <script src="scripts/cardFeatures.js"></script>
     <script src="scripts/animations.js"></script>
+    <script src="scripts/hamburger.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const featuredGrid = document.getElementById('featured-products');
