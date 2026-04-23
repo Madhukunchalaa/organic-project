@@ -1957,3 +1957,106 @@ body.dark .mobile-menu-drawer a.active {
     height: 350px !important;
   }
 }
+
+/* --- Page Content Responsive Grids (process, heritage, concierge) --- */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  margin-bottom: 100px;
+}
+
+.content-grid-sm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+}
+
+.badge-tag {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  background: var(--accent);
+  color: var(--primary);
+  padding: 15px 25px;
+  border-radius: 50px;
+  font-weight: 700;
+  transform: rotate(-5deg);
+}
+
+.badge-tag-right {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  background: var(--primary);
+  color: var(--bg-white);
+  padding: 15px 25px;
+  border-radius: 50px;
+  font-weight: 700;
+  transform: rotate(5deg);
+}
+
+.hero-content-left {
+  text-align: left;
+  margin-left: 0;
+}
+
+@media (max-width: 768px) {
+  .content-grid,
+  .content-grid-sm {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+    margin-bottom: 60px !important;
+  }
+
+  /* Reset order overrides on mobile so image always comes first */
+  .order-2-desktop { order: unset !important; }
+  .order-1-desktop { order: unset !important; }
+
+  /* Reset order overrides on mobile */
+  .content-grid > [style*="order: 2"],
+  .content-grid > div[style*="order:2"] {
+    order: unset !important;
+  }
+
+  .content-grid > [style*="order: 1"],
+  .content-grid > div[style*="order:1"] {
+    order: unset !important;
+  }
+
+  .badge-tag {
+    top: -10px;
+    left: -5px;
+    padding: 10px 16px;
+    font-size: 0.8rem;
+  }
+
+  .badge-tag-right {
+    top: -10px;
+    right: -5px;
+    padding: 10px 16px;
+    font-size: 0.8rem;
+  }
+
+  /* Hero headings on these pages */
+  .hero-content h1 {
+    font-size: 2.4rem !important;
+  }
+
+  /* Section headings */
+  .content-grid h2,
+  .content-grid-sm h2 {
+    font-size: 2rem !important;
+  }
+
+  /* Concierge contact card padding */
+  .concierge-card {
+    padding: 25px !important;
+  }
+
+  /* Features band on heritage */
+  .features-band .features-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
